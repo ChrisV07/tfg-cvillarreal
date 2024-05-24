@@ -5,34 +5,35 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { CardWrapper } from "@/components/auth/card-wrapper";
-import { LoginSchema } from "@/src/schemas";
+import { RegisterSchema } from "@/src/schemas";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/ui/form-error";
 import { FormSuccess } from "@/components/ui/FormSuccess";
-import { login } from "@/actions/login";
+import { register } from "@/actions/register";
 import { useState, useTransition } from "react";
 
 
-export default function LoginForm() {
+export default function RegisterForm() {
    const [error, setError] = useState<string | undefined>("")
    const [success, setSuccess] = useState<string | undefined>("")
    const [isPending, startTransition] = useTransition()
 
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
+  const form = useForm<z.infer<typeof RegisterSchema>>({
+    resolver: zodResolver(RegisterSchema),
     defaultValues: {
       email: "",
       password: "",
+      name: "",
     },
   })
 
-  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+  const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
     setError("");
     setSuccess("");
     
     startTransition(() => {
-      login(values)
+      register(values)
         .then((data) => {
           setError(data.error);
           setSuccess(data.success);
@@ -42,10 +43,10 @@ export default function LoginForm() {
 
   return (
     <CardWrapper
-      headerTitle="🔐 Iniciar Sesión"
-      headerLabel="Comenza a Administrar tu Restaurante Iniciando Sesión en el siguiente formulario:"
-      backButtonLabel="No tienes cuenta? Registrate"
-      backButtonHref="/auth/register"
+      headerTitle="🔐 Registrar Cuenta"
+      headerLabel="Completa el siguiente formulario para crear una cuenta:"
+      backButtonLabel="Ya tienes cuenta? Inicia Sesión"
+      backButtonHref="/auth/login"
       showSocial
     >
       <Form {...form}>
@@ -54,7 +55,24 @@ export default function LoginForm() {
               className="space-y-6"
               >
                 <div className="space-y-4">
-                    <FormField
+                <FormField
+                        control={form.control}
+                        name="name"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Nombre Completo:</FormLabel>
+                            <FormControl>
+                              <Input
+                                  {...field}
+                                  disabled={isPending}
+                                  placeholder="John Doe"
+                              />
+                            </FormControl>
+                            <FormMessage/>
+                          </FormItem>
+                        )}
+                    />
+                <FormField
                         control={form.control}
                         name="email"
                         render={({ field }) => (
@@ -99,7 +117,7 @@ export default function LoginForm() {
                     type="submit"
                     className="w-full"
                 >
-                        Iniciar Sesión
+                        Crear Cuenta
                 </Button>
           </form>
 

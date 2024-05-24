@@ -1,7 +1,12 @@
-import React from 'react'
+import RegisterForm from "@/components/auth/register-form";
+import React from "react";
 
-export default function page() {
+export default function RegisterPage() {
   return (
-    <div>page</div>
-  )
+    <div className="grid grid-cols-2 bg-violet-800 h-full w-full">
+      <div className="p-16 py-40">
+        <RegisterForm />
+      </div>
+    </div>
+  );
 }

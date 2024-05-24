@@ -68,3 +68,19 @@ export const LoginSchema = z.object({
                     message: 'La contraseña es Obligatoria!'
                 })
 })
+
+export const RegisterSchema = z.object({
+    email: z.string()
+                .email({
+        message: 'El Email es Obligatorio!'
+    }),
+    password: z.string()
+                .min(8, {
+                    message: 'La Contraseña debe tener minimo 8 caracteres!'
+                }),
+    name: z.string()
+                .min(1, {
+                    message: "El Nombre es Obligatorio!"
+                })
+            
+})
