@@ -7,50 +7,77 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
-
 model Category {
-  id  Int   @id   @default(autoincrement())
-  name  String
-  slug  String
-  products  Product[]
+  id       Int       @id @default(autoincrement())
+  name     String
+  slug     String
+  products Product[]
 }
 
 model Product {
-  id  Int   @id   @default(autoincrement())
-  name  String
-  price Float
-  image String
-  categoryId  Int
-  category  Category @relation(fields: [categoryId], references: [id])
+  id         Int             @id @default(autoincrement())
+  name       String
+  price      Float
+  image      String
+  categoryId Int
+  category   Category        @relation(fields: [categoryId], references: [id])
   orderItems OrderProducts[]
 }
 
 model Table {
-  id         Int      @id @default(autoincrement())
-  name       String
-  ubication  String
-  qr         String
-  orders     Order[]
+  id        Int     @id @default(autoincrement())
+  name      String
+  ubication String
+  qr        String
+  orders    Order[]
 }
 
 model Order {
-  id      Int   @id   @default(autoincrement())
-  name    String
-  total   Float
-  date    DateTime  @default(now())
-  status  Boolean   @default(false)
+  id            Int             @id @default(autoincrement())
+  name          String
+  total         Float
+  date          DateTime        @default(now())
+  status        Boolean         @default(false)
   orderReadyAt  DateTime?
   orderProducts OrderProducts[]
-  table         Table          @relation(fields: [tableId], references: [id])
+  table         Table           @relation(fields: [tableId], references: [id])
   tableId       Int
 }
 
 model OrderProducts {
-  id      Int   @id   @default(autoincrement())
-  orderId Int
-  order   Order @relation(fields: [orderId], references: [id])
-  productId   Int
+  id        Int     @id @default(autoincrement())
+  orderId   Int
+  order     Order   @relation(fields: [orderId], references: [id])
+  productId Int
   product   Product @relation(fields: [productId], references: [id])
   quantity  Int
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime? @map("email_verified")
+  image         String?
+  password      String?
+  accounts      Account[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
 }
