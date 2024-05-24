@@ -1,5 +1,5 @@
 "use client"
-import { ProductSchema } from "@/src/schema";
+import { ProductSchema } from "@/src/schemas";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
 import { createProduct } from "@/actions/create-product-action";

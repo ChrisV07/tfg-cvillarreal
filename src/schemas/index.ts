@@ -57,3 +57,14 @@ export const TableSchema = z.object({
                 .min(1, 'La Ubicación de La Mesa es Obligatorio'),
     qr: z.string()
 })
+
+export const LoginSchema = z.object({
+    email: z.string()
+                .email({
+        message: 'El Email es Obligatorio!'
+    }),
+    password: z.string()
+                .min(1, {
+                    message: 'La contraseña es Obligatoria!'
+                })
+})

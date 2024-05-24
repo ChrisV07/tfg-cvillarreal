@@ -4,7 +4,7 @@ import ProductDetails from "./ProductDetails";
 import { useEffect, useMemo } from "react";
 import { formatCurrency } from "@/src/utils";
 import { createOrder } from "@/actions/create-order-action";
-import { OrderSchema } from "@/src/schema";
+import { OrderSchema } from "@/src/schemas";
 import { toast } from "react-toastify";
 
 export default function OrderSumary() {

@@ -1,5 +1,5 @@
 "use client"
-import { TableSchema } from "@/src/schema";
+import { TableSchema } from "@/src/schemas";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
 import { useRouter } from "next/navigation";
