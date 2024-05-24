@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<svg width="2063.37" height="2063.37" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" data-name="Modo de aislamiento">
+ <defs>
+  <style>.cls-1{fill:#e4ac4b;}.cls-2{opacity:0.3;}.cls-3{fill:#5d1e4e;}.cls-4{fill:#f1cc30;}.cls-5{opacity:0.65;}.cls-6{fill:#fff;}.cls-7{fill:#cb1e27;}.cls-8{fill:#a01c27;}.cls-9{fill:#e8c352;}.cls-10{fill:#7dc562;}.cls-11{fill:#592047;}.cls-12{fill:#582147;}.cls-13{fill:#d59654;}.cls-14{fill:#5e1e4e;}</style>
+  <symbol height="66" id="svg_148" viewBox="0 0 66 66" width="66" xmlns="http://www.w3.org/2000/svg">
+   <path d="m48.47,60.65l-32.51,-18.76l-3.58,-8.89l39.18,-23.72l6.19,6.19l0,39.82c0,4.76 -5.15,7.74 -9.28,5.36z" fill="url(#svg_147)"/>
+   <path d="m48.47,60.65l-32.51,-18.76l-3.58,-8.89l39.18,-23.72l6.19,6.19l0,39.82c0,4.76 -5.15,7.74 -9.28,5.36z" fill="url(#svg_138)"/>
+   <path d="m48.47,60.65l-32.51,-18.76l-3.58,-8.89l39.18,-23.72l6.19,6.19l0,39.82c0,4.76 -5.15,7.74 -9.28,5.36z" fill="url(#svg_137)"/>
+   <path d="m57.75,16.54c-17.82,0.73 -33.22,10.89 -41.33,25.62l-6.84,-3.95c-3,-1.73 -4.02,-5.6 -1.96,-8.38c13.8,-18.62 33.76,-24.29 43.82,-26c3.44,-0.59 6.31,2.15 6.31,5.64l0,7.07z" fill="url(#svg_146)"/>
+   <path d="m57.75,16.54c-17.82,0.73 -33.22,10.89 -41.33,25.62l-6.84,-3.95c-3,-1.73 -4.02,-5.6 -1.96,-8.38c13.8,-18.62 33.76,-24.29 43.82,-26c3.44,-0.59 6.31,2.15 6.31,5.64l0,7.07z" fill="url(#svg_136)"/>
+   <path d="m57.75,16.54c-17.82,0.73 -33.22,10.89 -41.33,25.62l-6.84,-3.95c-3,-1.73 -4.02,-5.6 -1.96,-8.38c13.8,-18.62 33.76,-24.29 43.82,-26c3.44,-0.59 6.31,2.15 6.31,5.64l0,7.07z" fill="url(#svg_145)"/>
+   <path d="m53.63,29.91a7.22,7.22 0 1 1 -14.44,0a7.22,7.22 0 0 1 14.44,0z" fill="url(#svg_144)"/>
+   <path d="m53.63,29.91a7.22,7.22 0 1 1 -14.44,0a7.22,7.22 0 0 1 14.44,0z" fill="url(#svg_143)"/>
+   <path d="m47.44,51.56a4.13,4.13 0 1 0 0,-8.25a4.13,4.13 0 0 0 0,8.25z" fill="url(#svg_142)"/>
+   <path d="m47.44,51.56a4.13,4.13 0 1 0 0,-8.25a4.13,4.13 0 0 0 0,8.25z" fill="url(#svg_141)"/>
+   <path d="m37.13,42.28a5.16,5.16 0 1 1 -10.32,0a5.16,5.16 0 0 1 10.32,0z" fill="#FF3478"/>
+   <path d="m37.13,42.28a5.16,5.16 0 1 1 -10.32,0a5.16,5.16 0 0 1 10.32,0z" fill="url(#svg_140)"/>
+   <path d="m37.13,42.28a5.16,5.16 0 1 1 -10.32,0a5.16,5.16 0 0 1 10.32,0z" fill="url(#svg_139)"/>
+   <defs>
+    <radialGradient cx="0" cy="0" gradientTransform="rotate(128.873 18.335 28.729) scale(32.4526 28.2084)" gradientUnits="userSpaceOnUse" id="svg_147" r="1">
+     <stop stop-color="#FFE657"/>
+     <stop offset="1" stop-color="#FFC547"/>
+    </radialGradient>
+    <radialGradient cx="0" cy="0" gradientTransform="matrix(-59.03927 40.47651 -21.34293 -31.13092 40.992 31.196)" gradientUnits="userSpaceOnUse" id="svg_146" r="1">
+     <stop offset="0.28" stop-color="#FFA060"/>
+     <stop offset="0.39" stop-color="#FFC48A"/>
+     <stop offset="0.46" stop-color="#FFC888"/>
+     <stop offset="0.62" stop-color="#E4AF7C"/>
+    </radialGradient>
+    <radialGradient cx="0" cy="0" gradientTransform="matrix(1.03125 6.57422 -12.81124 2.0096 55.43 9.153)" gradientUnits="userSpaceOnUse" id="svg_145" r="1">
+     <stop stop-color="#FFE498"/>
+     <stop offset="1" stop-color="#FFE398" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient cx="0" cy="0" gradientTransform="rotate(137.626 19.536 23.81) scale(9.94585)" gradientUnits="userSpaceOnUse" id="svg_144" r="1">
+     <stop stop-color="#FF8DA2"/>
+     <stop offset="1" stop-color="#FF2B43"/>
+    </radialGradient>
+    <radialGradient cx="0" cy="0" gradientTransform="rotate(101.611 8.549 35.838) scale(9.60675)" gradientUnits="userSpaceOnUse" id="svg_143" r="1">
+     <stop offset="0.39" stop-color="#F63080"/>
+     <stop offset="1" stop-color="#F73184" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient cx="0" cy="0" gradientTransform="rotate(137.626 15.741 32.835) scale(5.68334)" gradientUnits="userSpaceOnUse" id="svg_142" r="1">
+     <stop stop-color="#FF8DA2"/>
+     <stop offset="1" stop-color="#FF2B43"/>
+    </radialGradient>
+    <radialGradient cx="0" cy="0" gradientTransform="rotate(101.611 2.972 44.183) scale(5.48957)" gradientUnits="userSpaceOnUse" id="svg_141" r="1">
+     <stop offset="0.39" stop-color="#F63080"/>
+     <stop offset="1" stop-color="#F73184" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient cx="0" cy="0" gradientTransform="rotate(137.626 9.31 27.237) scale(7.10418)" gradientUnits="userSpaceOnUse" id="svg_140" r="1">
+     <stop stop-color="#FF8DA2"/>
+     <stop offset="1" stop-color="#FF2B43"/>
+    </radialGradient>
+    <radialGradient cx="0" cy="0" gradientTransform="rotate(101.611 -3.011 35.578) scale(6.86198)" gradientUnits="userSpaceOnUse" id="svg_139" r="1">
+     <stop offset="0.39" stop-color="#F63080"/>
+     <stop offset="1" stop-color="#F73184" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" id="svg_138" x1="26.81" x2="31.84" y1="50.27" y2="42.28">
+     <stop offset="0.23" stop-color="#EA9352"/>
+     <stop offset="0.79" stop-color="#EA9353" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" id="svg_137" x1="57.75" x2="55.04" y1="31.58" y2="31.58">
+     <stop offset="0.24" stop-color="#F5C344"/>
+     <stop offset="0.81" stop-color="#FFD059" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" id="svg_136" x1="10.31" x2="16.76" y1="39.19" y2="30.42">
+     <stop stop-color="#E79786"/>
+     <stop offset="0.78" stop-color="#EA8F85" stop-opacity="0"/>
+    </linearGradient>
+   </defs>
+  </symbol>
+ </defs>
+ <g class="layer">
+  <title>Layer 1</title>
+  <use id="svg_149" transform="matrix(31.8338 0 0 31.8338 -14.5224 174.165)" x="-2.11" xlink:href="#svg_148" y="-6.18"/>
+ </g>
+</svg>
