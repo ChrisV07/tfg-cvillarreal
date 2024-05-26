@@ -11,8 +11,8 @@ export default async function AdminLayout({
         <>
         
         <div className="grid grid-cols-2 bg-violet-800 h-full w-full">
-      <div className="p-16 py-40">
-      <main className="md:flex-1 md:h-screen md:overflow-y-scroll p-5">
+      <div className="p-16 py-20">
+      <main className="md:flex-1 md:h-screen md:overflow-y-scroll p-16">
                     {children}
                 </main>
                 </div>
