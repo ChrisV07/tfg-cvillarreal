@@ -11,6 +11,8 @@ export const publicRoutes = [
     "/order/dona",
     "/order/pastel",
     "/order/galletas",
+    "/auth/new-verification",
+    
 ]
 
 /**
