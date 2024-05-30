@@ -24,6 +24,7 @@ export default function RegisterForm() {
     defaultValues: {
       email: "",
       password: "",
+      confirmPassword: "",
       name: "",
     },
   })
@@ -93,6 +94,24 @@ export default function RegisterForm() {
                     <FormField
                         control={form.control}
                         name="password"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Contraseña:</FormLabel>
+                            <FormControl>
+                              <Input
+                                  {...field}
+                                  disabled={isPending}
+                                  placeholder="********"
+                                  type="password"
+                              />
+                            </FormControl>
+                            <FormMessage/>
+                          </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="confirmPassword"
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>Contraseña:</FormLabel>

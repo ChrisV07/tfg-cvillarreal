@@ -78,12 +78,19 @@ export const RegisterSchema = z.object({
                 .min(8, {
                     message: 'La Contraseña debe tener minimo 8 caracteres!'
                 }),
-    name: z.string()
+                confirmPassword: z.string().min(8, {
+                  message: "La Confirmación de Contraseña debe tener mínimo 8 caracteres!",
+                }),
+                name: z.string()
                 .min(1, {
                     message: "El Nombre es Obligatorio!"
                 })
-            
-})
+              })
+              .refine((data) => data.password === data.confirmPassword, {
+                message: "Las contraseñas no coinciden",
+                path: ["confirmPassword"], // Este path es para que el mensaje de error aparezca en el campo de confirmación
+              });
+          
 
 export const ResetSchema = z.object({
     email: z.string()
@@ -97,4 +104,11 @@ export const NewPasswordSchema = z.object({
     .min(8, {
         message: 'La Contraseña debe tener minimo 8 caracteres!'
     }),
+    confirmPassword: z.string()
+        .min(8, {
+            message: 'La Confirmación de Contraseña debe tener mínimo 8 caracteres!'
+        }),
+}).refine(data => data.password === data.confirmPassword, {
+    message: 'Las contraseñas no coinciden',
+    path: ['confirmPassword'] // Este path es para que el mensaje de error aparezca en el campo de confirmación
 })
