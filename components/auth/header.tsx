@@ -17,7 +17,7 @@ export const Header = ({label, title} : HeaderProps) => {
     return (
 
         <div className="w-full flex flex-col gap-y-4 items-center justify-center">
-            <h1 className={cn("text-3xl font-semibold", font.className)}>{title}</h1>
+            <h1 className={cn("text-3xl font-semibold text-center", font.className)}><span>🔐 </span>{title}</h1>
             <p className=" text-muted-foreground text-sm">{label}</p>
         </div>
     )

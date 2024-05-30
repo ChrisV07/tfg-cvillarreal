@@ -43,7 +43,7 @@ export default function RegisterForm() {
 
   return (
     <CardWrapper
-      headerTitle="🔐 Registrar Cuenta"
+      headerTitle="Nueva Cuenta"
       headerLabel="Completa el siguiente formulario para crear una cuenta:"
       backButtonLabel="Ya tienes cuenta? Inicia Sesión"
       backButtonHref="/auth/login"

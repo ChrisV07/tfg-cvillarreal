@@ -84,3 +84,17 @@ export const RegisterSchema = z.object({
                 })
             
 })
+
+export const ResetSchema = z.object({
+    email: z.string()
+                .email({
+        message: 'El Email es Obligatorio!'
+    })
+})
+
+export const NewPasswordSchema = z.object({
+    password: z.string()
+    .min(8, {
+        message: 'La Contraseña debe tener minimo 8 caracteres!'
+    }),
+})

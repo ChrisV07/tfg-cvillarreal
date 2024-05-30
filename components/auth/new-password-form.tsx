@@ -12,76 +12,55 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { CardWrapper } from "@/components/auth/card-wrapper";
-import { LoginSchema } from "@/src/schemas";
+import { NewPasswordSchema } from "@/src/schemas";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/ui/form-error";
 import { FormSuccess } from "@/components/ui/FormSuccess";
-import { login } from "@/actions/login";
+import { newPassword } from "@/actions/new-password";
 import { useState, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
-import Link from "next/link";
 
-export default function LoginForm() {
-  const searchParams = useSearchParams();
-  const urlError =
-    searchParams.get("error") === "OAuthAccountNotLinked"
-      ? "El Email ya se encuentra en uso con un proveedor diferente"
-      : "";
+export default function NewPasswordForm() {
+  const searchParams = useSearchParams()
 
+  const token = searchParams.get("token")
+  
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
 
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
+  const form = useForm<z.infer<typeof NewPasswordSchema>>({
+    resolver: zodResolver(NewPasswordSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      password: ""
     },
   });
 
-  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+  const onSubmit = (values: z.infer<typeof NewPasswordSchema>) => {
     setError("");
     setSuccess("");
 
     startTransition(() => {
-      login(values).then((data) => {
-        setError(data?.error);
-        setSuccess(data?.success);
+       newPassword(values, token)
+        .then((data) => {
+          setError(data?.error);
+          setSuccess(data?.success);
       });
     });
   };
 
   return (
     <CardWrapper
-      headerTitle="Iniciar Sesión"
-      headerLabel="Comenza a Administrar tu Restaurante Iniciando Sesión en el siguiente formulario:"
-      backButtonLabel="No tienes cuenta? Registrate"
-      backButtonHref="/auth/register"
-      showSocial
+      headerTitle="Restablecer Contraseña"
+      headerLabel="Ingresa Tu Nueva Contraseña"
+      backButtonLabel="Volver a inicio de sesión"
+      backButtonHref="/auth/login"
+
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-4">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email:</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      disabled={isPending}
-                      placeholder="john.doe@example.com"
-                      type="email"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
             <FormField
               control={form.control}
               name="password"
@@ -96,19 +75,17 @@ export default function LoginForm() {
                       type="password"
                     />
                   </FormControl>
-                  <Button size="sm" variant="link" asChild className="px-0 font-normal">
-                    <Link href="/auth/reset">Olvidaste tu Contraseña?</Link>
-                  </Button>
                   <FormMessage />
                 </FormItem>
               )}
             />
+            
           </div>
-          <FormError message={error || urlError} />
+          <FormError message={error} />
           <FormSuccess message={success} />
 
           <Button disabled={isPending} type="submit" className="w-full">
-            Iniciar Sesión
+            Restablecer Contraseña 
           </Button>
         </form>
       </Form>
