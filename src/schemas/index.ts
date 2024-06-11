@@ -4,6 +4,7 @@ import { z } from 'zod'
 export const  OrderSchema = z.object({
     name: z.string()
                 .min(1, 'Tu nombre es obligatorio.'),
+                
     total: z.number()
                 .min(1, 'Hay errores en la orden'),
     order: z.array(z.object({
@@ -13,7 +14,7 @@ export const  OrderSchema = z.object({
         quantity: z.number(),
         subtotal: z.number()
     })),
-    tableId: z.number()
+    tableId: z.string()
                     .min(1, 'No se ha Asignado Mesa'),
                     
 })

@@ -21,7 +21,7 @@ export default function OrderSumary() {
     const urlParams = new URLSearchParams(window.location.search);
     const paramTableId = urlParams.get("table");
     if (paramTableId) {
-      setTableId(+paramTableId);
+      setTableId(paramTableId);
     }
   }, [setTableId]);
 

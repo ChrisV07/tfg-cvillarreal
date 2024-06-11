@@ -18,8 +18,14 @@ const adminNavigation = [
     image: "/Mesas.svg",
   },
   {
-    url: "/admin/kitchenorders",
+    url: "/orders/kitchenorders",
     text: "Ordenes Cocina",
+    blank: true,
+    image: "/Orders.svg",
+  },
+  {
+    url: "/orders/readyorders",
+    text: "Ordenes Listas",
     blank: true,
     image: "/Orders.svg",
   },
@@ -27,7 +33,6 @@ const adminNavigation = [
 ];
 
 export default async function AdminSidebar() {
-    const session = await auth()
   return (
     <>
       <div className="print:hidden ">
@@ -49,7 +54,7 @@ export default async function AdminSidebar() {
               <form
                 action={async () => {
                   "use server";
-                  await signOut();
+                  await signOut({redirectTo:'/auth/login'})
                 }}
               >
                 <button className="text-xl font-bold" type="submit">

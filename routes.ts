@@ -4,7 +4,6 @@
  * @type {string[]}
  */
 export const publicRoutes = [
-    "/",
     "/order/cafe",
     "/order/hamburguesa",
     "/order/pizza",
@@ -14,6 +13,18 @@ export const publicRoutes = [
     "/auth/new-verification",
     
 ]
+
+/**
+ * An Array of routes that are accessible to the Resto-Admin role
+ * These routes require authentication and RESTO ADMIN role
+ * @type {string[]}
+ */
+export const adminRoutes = [
+    "/admin",
+    "/admin/products",
+    "/admin/tables"
+]
+
 
 /**
  * An Array of routes that are used for authentication
@@ -39,4 +50,4 @@ export const apiAuthPrefix = "/api/auth"
  * The default redirect path after logging in
  * @type {string}
  */
-export const DEFAULT_LOGIN_REDIRECT = "/admin/products"
+export const DEFAULT_LOGIN_REDIRECT = "/"

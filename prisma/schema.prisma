@@ -56,7 +56,8 @@ model OrderProducts {
 enum UserRole {
   SUPER_ADMIN
   RESTO_ADMIN
-  ORDER_USER
+  KITCHEN_ORDERS
+  READY_ORDERS
   CLIENT_USER
 }
 

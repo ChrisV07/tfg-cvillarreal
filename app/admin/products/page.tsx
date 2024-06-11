@@ -4,7 +4,6 @@ import ProductTable from "@/components/products/ProductsTable";
 import Heading from "@/components/ui/Heading";
 import { prisma } from "@/src/lib/prisma";
 import Link from "next/link";
-import { auth } from "@/auth";
 
 async function productCount() {
   return await prisma.product.count();
@@ -42,6 +41,8 @@ export default async function ProductsPage({
     totalProductsData,
   ]);
   const totalPages = Math.ceil(totalProducts / pageSize);
+
+
 
   return (
     <>

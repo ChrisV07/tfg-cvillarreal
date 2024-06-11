@@ -3,12 +3,16 @@
 import OrderCard from "@/components/order/OrderCard";
 import Heading from "@/components/ui/Heading";
 import Logo from "@/components/ui/Logo";
+import { useCurrentUser } from "@/hooks/use-current-user";
 import { OrderWithProducts } from "@/src/types";
+import { redirect } from "next/navigation";
 import React from "react";
 import useSWR from "swr";
 
 export default function OrderPages() {
-  const url = "/admin/kitchenorders/api";
+  const user = useCurrentUser()
+  if (user?.role == 'KITCHEN_ORDERS' || user?.role == 'RESTO_ADMIN') {
+  const url = "/orders/kitchenorders/api";
   const fetcher = () =>
     fetch(url)
       .then((res) => res.json())
@@ -42,5 +46,6 @@ export default function OrderPages() {
           </>
         )}
       </>
-    );
+    );}
+    redirect('/api/auth/signout')
 }

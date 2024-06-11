@@ -2,7 +2,7 @@
 
 import { prisma } from "@/src/lib/prisma";
 import { OrderSchema } from "@/src/schemas";
-import { log } from "console";
+
 
 export async function createOrder(data: unknown) {
   const result = OrderSchema.safeParse(data);

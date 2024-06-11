@@ -2,13 +2,15 @@
 import useSWR from "swr";
 import Logo from "@/components/ui/Logo";
 import { OrderWithProducts } from "@/src/types";
-import OrderCard from "@/components/order/OrderCard";
 import LatestOrderItem from "@/components/order/LatestOrderItem";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import { redirect } from "next/navigation";
 
 
 export default function ReadyOrdersPage() {
-
-  const url = '/readyorders/api'
+  const user = useCurrentUser()
+  if (user?.role == 'READY_ORDERS' || user?.role == 'RESTO_ADMIN') {
+    const url = '/orders/readyorders/api'
   const fetcher = () => fetch(url).then(res => res.json()).then(data => data)
   const { data, error, isLoading } = useSWR<OrderWithProducts[]>(url, fetcher, {
     refreshInterval: 60000,
@@ -40,4 +42,8 @@ export default function ReadyOrdersPage() {
 
     </>
   )
+}
+
+  redirect('/api/auth/signout')
+  
 }
