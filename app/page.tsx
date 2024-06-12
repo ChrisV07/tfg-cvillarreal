@@ -7,9 +7,9 @@ export default async function Home() {
   if (session?.user.role == "CLIENT_USER") {
     redirect("/menu/cafe");
   } else if (session?.user.role == "READY_ORDERS") {
-    redirect("/readyorders");
+    redirect("/orders/readyorders");
   } else if (session?.user.role == "KITCHEN_ORDERS") {
-    redirect("/admin/kitchenorders");
+    redirect("/orders/kitchenorders");
   } else if (session?.user.role == "RESTO_ADMIN") {
     redirect("/admin/products");
   }
