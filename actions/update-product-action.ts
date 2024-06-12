@@ -1,7 +1,7 @@
 "use server"
 
 import { prisma } from "@/src/lib/prisma"
-import { ProductSchema } from "@/src/schema"
+import { ProductSchema } from "@/src/schemas"
 import { revalidatePath } from "next/cache"
 
 export async function updateProduct(data: unknown, id: number){

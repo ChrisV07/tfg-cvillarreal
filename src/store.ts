@@ -4,19 +4,19 @@ import { Product } from "@prisma/client";
 
 type Store = {
   order: OrderItem[];
-  tableId: number;
+  tableId: string;
   addToOrder: (product: Product) => void;
   increaseQuantity: (id: Product["id"]) => void;
   decreaseQuantity: (id: Product["id"]) => void;
   removeItem: (id: Product["id"]) => void;
   clearOrder: () => void
-  setTableId: (tableId: number) => void; // Agrega una función para establecer el tableId
+  setTableId: (tableId: string) => void; // Agrega una función para establecer el tableId
 
 };
 
 export const useStore = create<Store>((set, get) => ({
   order: [],
-  tableId: 0, 
+  tableId: "", 
   addToOrder: (product) => {
     const { categoryId, image, ...data } = product;
     let order: OrderItem[] = [];

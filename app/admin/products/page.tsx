@@ -42,6 +42,8 @@ export default async function ProductsPage({
   ]);
   const totalPages = Math.ceil(totalProducts / pageSize);
 
+
+
   return (
     <>
 
