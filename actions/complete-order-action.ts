@@ -1,7 +1,7 @@
 "use server"
 
 import { prisma } from "@/src/lib/prisma";
-import { OrderIdSchema } from "@/src/schema";
+import { OrderIdSchema } from "@/src/schemas";
 import { revalidatePath } from "next/cache";
 
 export async function completeOrder(formData: FormData) {

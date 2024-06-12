@@ -1,7 +1,7 @@
 "use server"
 
 import { prisma } from "@/src/lib/prisma"
-import { TableSchema } from "@/src/schema"
+import { TableSchema } from "@/src/schemas"
 import { generateQR } from "./generate-qr-actions";
 
 export async function createTable(data:unknown) {

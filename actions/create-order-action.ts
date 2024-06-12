@@ -1,8 +1,8 @@
 "use server";
 
 import { prisma } from "@/src/lib/prisma";
-import { OrderSchema } from "@/src/schema";
-import { log } from "console";
+import { OrderSchema } from "@/src/schemas";
+
 
 export async function createOrder(data: unknown) {
   const result = OrderSchema.safeParse(data);

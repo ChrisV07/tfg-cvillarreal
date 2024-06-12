@@ -1,7 +1,7 @@
 "use server"
 
 import { prisma } from "@/src/lib/prisma"
-import { TableSchema } from "@/src/schema"
+import { TableSchema } from "@/src/schemas"
 import { revalidatePath } from "next/cache"
 
 export async function updateTable(data: unknown, id: number){
