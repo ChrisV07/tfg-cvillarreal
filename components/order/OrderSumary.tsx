@@ -6,6 +6,7 @@ import { formatCurrency } from "@/src/utils";
 import { createOrder } from "@/actions/create-order-action";
 import { OrderSchema } from "@/src/schemas";
 import { toast } from "react-toastify";
+import { UserButton } from "../auth/user-button";
 
 export default function OrderSumary() {
   const order = useStore((state) => state.order);
@@ -52,7 +53,10 @@ export default function OrderSumary() {
   };
 
   return (
+  
+    
     <aside className="lg:h-screen lg:overflow-y-scroll md:w-64 lg:w-96 p-5">
+        <UserButton/>
       <h1 className="text-4xl text-center font-black">Mi Pedido</h1>
 
       {order.length === 0 ? (

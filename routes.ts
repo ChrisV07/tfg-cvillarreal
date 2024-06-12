@@ -4,12 +4,12 @@
  * @type {string[]}
  */
 export const publicRoutes = [
-    "/order/cafe",
-    "/order/hamburguesa",
-    "/order/pizza",
-    "/order/dona",
-    "/order/pastel",
-    "/order/galletas",
+    "/menu/cafe",
+    "/menu/hamburguesa",
+    "/menu/pizza",
+    "/menu/dona",
+    "/menu/pastel",
+    "/menu/galletas",
     "/auth/new-verification",
     
 ]

@@ -5,7 +5,7 @@ export default async function Home() {
   const session = await auth();
 
   if (session?.user.role == "CLIENT_USER") {
-    redirect("/order/cafe");
+    redirect("/menu/cafe");
   } else if (session?.user.role == "READY_ORDERS") {
     redirect("/readyorders");
   } else if (session?.user.role == "KITCHEN_ORDERS") {

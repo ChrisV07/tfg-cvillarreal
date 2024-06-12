@@ -1,11 +1,13 @@
 import OrderSidebar from "@/components/order/OrderSidebar";
 import OrderSumary from "@/components/order/OrderSumary";
 import ToastNotification from "@/components/ui/ToastNotification";
+import { SessionProvider } from "next-auth/react";
  
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
+    <SessionProvider>
     <>
       <div className="md:flex">
         <OrderSidebar />
@@ -16,5 +18,6 @@ export default function RootLayout({
       </div>
       <ToastNotification />
     </>
+    </SessionProvider>
   );
 }
