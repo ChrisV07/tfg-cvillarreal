@@ -11,6 +11,7 @@ export const publicRoutes = [
     "/menu/pastel",
     "/menu/galletas",
     "/auth/new-verification",
+    "/mozo_virtual",
     
 ]
 
