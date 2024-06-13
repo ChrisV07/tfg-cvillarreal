@@ -9,8 +9,6 @@
 
 import {
     GoogleGenerativeAI,
-    HarmCategory,
-    HarmBlockThreshold,
   } from "@google/generative-ai";
   
   const apiKey = "AIzaSyCTjNtd1p1c4r0l738Tu6dA_xhSsx7cGoE";
@@ -18,7 +16,7 @@ import {
   
   const model = genAI.getGenerativeModel({
     model: "gemini-1.5-flash",
-    systemInstruction: "Tu rol es ser un mozo virtual que responde unicamente recomendaciones gastronómicas y no preguntas de otro tipo, deberas responder Saludando, indicando cual es la recomendación, el porque detalladamente,  y ser amable, debes generar respuestas de 200 a 300 palabras y utilizar emojis.",
+    systemInstruction: "Tu rol es ser un mozo virtual que responde unicamente recomendaciones gastronómicas y no preguntas de otro tipo, deberas responder Saludando, indicando cual es la recomendación, el porque detalladamente,  y ser amable, debes generar respuestas de 200 a 300 palabras y utilizar emojis, hablar en español argentino, y si te preguntan que puedo tomar significa con que bebida acompañarlo",
   });
   
   const generationConfig = {

@@ -3,20 +3,22 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Context } from "@/src/context/context";
 import { XCircleIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
 import { useContext } from "react";
 import { FaRobot, FaUser } from "react-icons/fa";
 
-const page = () => {
+const ChatPage = () => {
   const { onSent, recentPrompt, showResult, resultData, setInput, input } =
     useContext(Context);
 
   return (
-    <div className="flex flex-col h-full max-w-md mx-auto border border-gray-300 rounded-lg overflow-hidden shadow-lg">
-      <div className="flex bg-white text-center text-xl font-bold p-4">
-        <h1 className="flex-1 justify-center">Mozo Virtual</h1>
-        <XCircleIcon className="text-red-600 h-8 w-8 justify-end" />
-
-        </div>
+    <div className="flex flex-col h-screen max-w-md mx-auto border border-gray-300 rounded-lg shadow-lg">
+      <div className="flex items-center justify-between bg-white text-center text-xl font-bold p-4 border-b border-gray-300">
+        <h1 className="flex-1">Mozo Virtual</h1>
+        <Link href={'/menu/cafe'}>
+            <XCircleIcon className="text-red-600 h-8 w-8 cursor-pointer" />
+        </Link>
+      </div>
       <div className="flex-1 p-4 space-y-4 overflow-y-auto bg-gray-100">
         <div className="flex items-start">
           <Avatar>
@@ -26,7 +28,6 @@ const page = () => {
           </Avatar>
           <p className="p-2 text-slate-500 font-semibold">Mozo Virtual</p>
         </div>
-
         <div className="flex items-center gap-4 bg-violet-800 text-white rounded-lg p-4">
           <div className="flex-1">
             <p className="break-words">Hola! 👋 ¿Cómo te puedo ayudar hoy? 🙂</p>
@@ -87,4 +88,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default ChatPage;
