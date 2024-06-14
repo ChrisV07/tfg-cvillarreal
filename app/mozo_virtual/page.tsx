@@ -14,15 +14,14 @@ type Message = {
 
 const ChatPage = () => {
   const context = useContext(Context);
-  const bottomRef = useRef<HTMLDivElement | null>(null); // Create a ref for the bottom of the chat
+  const bottomRef = useRef<HTMLDivElement | null>(null);
+  const chatContainerRef = useRef<HTMLDivElement | null>(null);
 
   if (!context) {
-    return null; // or throw an error
+    return null;
   }
 
   const { onSent, recentPrompt, prevPrompts, showResult, resultData, setInput, input, clearChat, loading } = context;
-
- 
 
   useEffect(() => {
     if (bottomRef.current) {
@@ -37,14 +36,14 @@ const ChatPage = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen max-w-md mx-auto border border-gray-300 rounded-lg shadow-lg">
-      <div className="flex items-center justify-between bg-white text-center text-xl font-bold p-4 border-b border-gray-300">
+    <div className="flex flex-col h-screen max-w-md mx-auto border border-gray-300 rounded-lg shadow-lg relative">
+      <div className="flex items-center justify-between bg-white text-center text-xl font-bold p-4 border-b border-gray-300 fixed w-full max-w-md top-0 z-10">
         <h1 className="flex-1">Mozo Virtual</h1>
         <Link href={'/menu/cafe'}>
           <XCircleIcon className="text-red-600 h-8 w-8 cursor-pointer" />
         </Link>
       </div>
-      <div className="flex-1 p-4 space-y-4 overflow-y-auto bg-gray-100">
+      <div ref={chatContainerRef} className="flex-1 p-4 space-y-4 overflow-y-auto bg-gray-100 pt-36 pb-20"> {/* Ajuste en pt-28 */}
         {prevPrompts.map((item: Message, index: number) => (
           <div key={index} className="space-y-4">
             {item.prompt && (
@@ -76,7 +75,7 @@ const ChatPage = () => {
 
             <div className="flex items-center gap-4 bg-violet-800 text-white rounded-lg p-4">
               <div className="flex-1">
-             <p className="break-words" dangerouslySetInnerHTML={{ __html: item.response }}></p>
+                <p className="break-words" dangerouslySetInnerHTML={{ __html: item.response }}></p>
               </div>
             </div>
           </div>
@@ -109,14 +108,14 @@ const ChatPage = () => {
 
             <div className="flex items-center gap-4 bg-violet-800 text-white rounded-lg p-4">
               <div className="flex-1">
-              {loading ? "..." : <p className="break-words" dangerouslySetInnerHTML={{ __html: resultData }}></p>}
+                {loading ? "..." : <p className="break-words" dangerouslySetInnerHTML={{ __html: resultData }}></p>}
               </div>
             </div>
           </div>
         )}
         <div ref={bottomRef} /> {/* Add a reference to the bottom of the chat */}
       </div>
-      <div className="p-4 border-t border-gray-300 bg-white">
+      <div className="p-4 border-t border-gray-300 bg-white fixed bottom-0 w-full max-w-md">
         <div className="flex space-x-2">
           <input
             type="text"
@@ -129,8 +128,7 @@ const ChatPage = () => {
           <button
             disabled={!input.trim()}
             className="px-4 py-2 bg-violet-800 text-white rounded-lg disabled:bg-slate-400"
-            onClick={() => onSent()
-            }
+            onClick={() => onSent()}
           >
             Enviar
           </button>
