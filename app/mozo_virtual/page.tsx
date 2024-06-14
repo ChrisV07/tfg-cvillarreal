@@ -22,9 +22,7 @@ const ChatPage = () => {
 
   const { onSent, recentPrompt, prevPrompts, showResult, resultData, setInput, input, clearChat, loading } = context;
 
-  const handleExit = () => {
-    clearChat();
-  };
+ 
 
   useEffect(() => {
     if (bottomRef.current) {
@@ -42,7 +40,7 @@ const ChatPage = () => {
     <div className="flex flex-col h-screen max-w-md mx-auto border border-gray-300 rounded-lg shadow-lg">
       <div className="flex items-center justify-between bg-white text-center text-xl font-bold p-4 border-b border-gray-300">
         <h1 className="flex-1">Mozo Virtual</h1>
-        <Link href={'/menu/cafe'} onClick={handleExit}>
+        <Link href={'/menu/cafe'}>
           <XCircleIcon className="text-red-600 h-8 w-8 cursor-pointer" />
         </Link>
       </div>
