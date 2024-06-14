@@ -32,6 +32,12 @@ const ChatPage = () => {
     }
   }, [prevPrompts, showResult]);
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter' && input.trim()) {
+      onSent();
+    }
+  };
+
   return (
     <div className="flex flex-col h-screen max-w-md mx-auto border border-gray-300 rounded-lg shadow-lg">
       <div className="flex items-center justify-between bg-white text-center text-xl font-bold p-4 border-b border-gray-300">
@@ -119,11 +125,14 @@ const ChatPage = () => {
             className="flex-1 px-4 py-2 border bg-gray-200 rounded-xl focus:outline-none"
             placeholder="Escribe tu mensaje..."
             onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
             value={input}
           />
           <button
-            className="px-4 py-2 bg-violet-800 text-white rounded-lg"
-            onClick={() => onSent()}
+            disabled={!input.trim()}
+            className="px-4 py-2 bg-violet-800 text-white rounded-lg disabled:bg-slate-400"
+            onClick={() => onSent()
+            }
           >
             Enviar
           </button>
