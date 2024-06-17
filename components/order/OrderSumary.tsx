@@ -7,11 +7,12 @@ import { createOrder } from "@/actions/create-order-action";
 import { OrderSchema } from "@/src/schemas";
 import { toast } from "react-toastify";
 import { UserButton } from "../auth/user-button";
+import ScrollToBottom from "@/components/order/ScrollToBottom"
 
-export default function OrderSumary() {
+export default function OrderSummary() {
   const order = useStore((state) => state.order);
   const tableId = useStore((state) => state.tableId);
-  const setTableId = useStore((state) => state.setTableId); 
+  const setTableId = useStore((state) => state.setTableId);
   const clearOrder = useStore((state) => state.clearOrder);
   const total = useMemo(
     () => order.reduce((total, item) => total + item.price * item.quantity, 0),
@@ -53,16 +54,14 @@ export default function OrderSumary() {
   };
 
   return (
-  
-    
-    <aside className="lg:h-screen lg:overflow-y-scroll md:w-64 lg:w-96 p-5">
-        <UserButton/>
+    <aside className="w-full md:w-64 lg:w-96 h-auto lg:h-screen lg:overflow-y-scroll p-5 bg-white">
+      <UserButton />
       <h1 className="text-4xl text-center font-black">Mi Pedido</h1>
 
       {order.length === 0 ? (
         <p className="text-center my-10"> El pedido está vacio</p>
       ) : (
-        <div className="mt-5 ">
+        <div className="mt-5">
           {order.map((item) => (
             <ProductDetails key={item.id} item={item} />
           ))}
@@ -87,7 +86,13 @@ export default function OrderSumary() {
             />
           </form>
         </div>
+        
       )}
+       <div className="sm:hidden mt-5">
+          <ScrollToBottom itemCount={order.length} />
+        
+        </div>
     </aside>
+    
   );
 }
