@@ -1,17 +1,9 @@
-/*
- * Install the Generative AI SDK
- *
- * $ npm install @google/generative-ai
- *
- * See the getting started guide for more information
- * https://ai.google.dev/gemini-api/docs/get-started/node
- */
 
 import {
     GoogleGenerativeAI,HarmBlockThreshold, HarmCategory
   } from "@google/generative-ai";
   
-  const apiKey = "AIzaSyCTjNtd1p1c4r0l738Tu6dA_xhSsx7cGoE";
+  const apiKey = 'AIzaSyCTjNtd1p1c4r0l738Tu6dA_xhSsx7cGoE'
   const genAI = new GoogleGenerativeAI(apiKey);
   
   const model = genAI.getGenerativeModel({

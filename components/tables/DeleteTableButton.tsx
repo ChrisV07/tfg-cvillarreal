@@ -1,11 +1,12 @@
 "use client"
 
 import { deleteTable } from "@/actions/delete-table-action";
+import { Table } from "@prisma/client";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 
 type DeleteTableButtonProps = {
-  id: number;
+  id: Table['id'];
 };
 
 const DeleteTableButton: React.FC<DeleteTableButtonProps> = ({ id }) => {

@@ -61,6 +61,9 @@ export const {
             if (token.role && session.user){
                 session.user.role = token.role 
             }
+            if (token.restaurantID && session.user) {
+                session.user.restaurantID = token.restaurantID; 
+            }
 
             return session
         },
@@ -72,6 +75,7 @@ export const {
             if (!existingUser) return token;
 
             token.role= existingUser.role;
+            token.restaurantID = existingUser.restaurantID; 
 
             return token;
         },

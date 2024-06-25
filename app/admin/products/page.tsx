@@ -62,13 +62,7 @@ export default async function ProductsPage({
         <ProductSearchForm />
       </div>
 
-      {products.length > 0 ? (
         <ProductTable products={products} />
-      ) : (
-        <p className="text-gray-600 text-lg mt-40 text-center">
-          No hay productos disponibles.
-        </p>
-      )}
 
       <Pagination page={page} totalPages={totalPages} path="/admin/products" />
     </>

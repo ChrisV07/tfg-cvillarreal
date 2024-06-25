@@ -59,13 +59,8 @@ export default async function TablesPage({
 
       </div>
 
-      {tables.length > 0 ? (
+     
         <TablesTable tables={tables} />
-      ) : (
-        <p className="text-gray-600 text-lg mt-40 text-center">
-          No existen Mesas en la base de datos.
-        </p>
-      )}
 
       <Pagination page={page} totalPages={totalPages} path='/admin/tables' />
     </>

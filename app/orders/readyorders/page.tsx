@@ -3,7 +3,7 @@ import useSWR from "swr";
 import Logo from "@/components/ui/Logo";
 import { OrderWithProducts } from "@/src/types";
 import LatestOrderItem from "@/components/order/LatestOrderItem";
-import { useCurrentUser } from "@/hooks/use-current-user";
+import { useCurrentUser } from "@/hooks/use-current-session";
 import { redirect } from "next/navigation";
 
 
@@ -20,16 +20,18 @@ export default function ReadyOrdersPage() {
 
   if(isLoading) return <p>Cargando...</p>
   
-  if(data) return(
+  if(data) {
+    const orders = data.filter((order) => order.restaurantID === user.restaurantID)
+    return(
 
     <>
       <h1 className="text-center mt-20 text-4xl font-black">Ordenes Listas</h1>
 
       <Logo/>
 
-      {data.length ? (
+      {orders.length ? (
         <div className="grid grid-cols-2 gap-5 max-w-5xl mx-auto mt-10">
-          {data.map(order => (
+          {orders.map(order => (
             <LatestOrderItem
               key={order.id}
               order={order}
@@ -46,4 +48,5 @@ export default function ReadyOrdersPage() {
 
   redirect('/api/auth/signout')
   
+}
 }
