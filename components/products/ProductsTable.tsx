@@ -1,5 +1,4 @@
-"use client"
-
+"use client";
 import { useState, useEffect } from "react";
 import { ProductsWithCategory } from "@/app/admin/products/page";
 import { formatCurrency } from "@/src/utils";
@@ -37,23 +36,35 @@ export default function ProductTable({ products, initialPage, pageSize }: Produc
 
   return (
     <div className="px-4 sm:px-6 lg:px-8 mt-20">
-      <div className="mt-8 flow-root ">
+      <div className="mt-8 flow-root">
         <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8 bg-white p-5 rounded-xl shadow">
             {paginatedProducts.length > 0 ? (
-              <table className="min-w-full divide-y divide-gray-300 ">
+              <table className="min-w-full divide-y divide-gray-300">
                 <thead>
                   <tr>
-                    <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
+                    <th
+                      scope="col"
+                      className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                    >
                       Producto
                     </th>
-                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
                       Precio
                     </th>
-                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
                       Categoría
                     </th>
-                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
                       <span className="sr-only">Acciones</span>
                     </th>
                   </tr>
@@ -93,14 +104,16 @@ export default function ProductTable({ products, initialPage, pageSize }: Produc
                 </p>
               </>
             )}
-            <Pagination
-              page={currentPage}
-              totalPages={totalPages}
-              path="/admin/products"
-              onPageChange={handlePageChange}
-            />
           </div>
         </div>
+      </div>
+      <div className="bg-gray-200 py-4">
+        <Pagination
+          page={currentPage}
+          totalPages={totalPages}
+          path="/admin/products"
+          onPageChange={handlePageChange}
+        />
       </div>
     </div>
   );

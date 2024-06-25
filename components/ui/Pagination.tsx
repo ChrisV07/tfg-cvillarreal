@@ -13,6 +13,8 @@ export default function Pagination({
   path,
   onPageChange,
 }: PaginationProps) {
+  if (totalPages <= 1) return null;
+
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
