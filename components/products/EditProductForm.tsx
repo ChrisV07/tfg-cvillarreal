@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { useRouter } from "next/navigation";
 import { updateProduct } from "@/actions/update-product-action";
 import { useParams } from "next/navigation";
+import { useCurrentRestaurant } from "@/hooks/use-current-session";
 
 
 export default function EditProductForm({children} : {children : React.ReactNode}) {
@@ -12,17 +13,18 @@ export default function EditProductForm({children} : {children : React.ReactNode
     const router = useRouter()
     const params = useParams()
     const id = +params.id!
+    const restaurantID = useCurrentRestaurant()
     
     const handleSubmit = async (formData: FormData) => {
         const data = {
             name: formData.get('name'),
             price: formData.get('price'),
             categoryId: formData.get('categoryId'),
-            image: formData.get('image')
+            image: formData.get('image'),
+            qr: formData.get('qr'),
+            restaurantID
         }
         
-
-
         const result = ProductSchema.safeParse(data)
 
         if(!result.success){

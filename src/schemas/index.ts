@@ -46,7 +46,8 @@ export const ProductSchema = z.object({
         .refine((value) => value > 0, { message: 'La Categoría es Obligatoria' })
         .or(z.number().min(1, {message: 'La Categoría es Obligatoria' })),
     image: z.string()
-                .min(1, {message: 'La Imagen es Obligatoria!'})
+                .min(1, {message: 'La Imagen es Obligatoria!'}),
+    restaurantID: z.string()
 })
 
 export const TableSchema = z.object({
@@ -56,7 +57,8 @@ export const TableSchema = z.object({
     ubication: z.string()
                 .trim()
                 .min(1, 'La Ubicación de La Mesa es Obligatorio'),
-    qr: z.string()
+    qr: z.string(),
+    restaurantID: z.string()
 })
 
 export const LoginSchema = z.object({

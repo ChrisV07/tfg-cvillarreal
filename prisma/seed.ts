@@ -1,11 +1,15 @@
 import { categories } from "./data/categories";
 import { products } from "./data/products";
+import { restaurants } from "./data/restaurant";
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
 async function main() {
     try {
+        await prisma.restaurant.createMany({
+            data: restaurants,
+          });
         await prisma.category.createMany({
             data: categories
         })

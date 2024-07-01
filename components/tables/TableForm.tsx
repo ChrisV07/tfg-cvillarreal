@@ -1,4 +1,4 @@
-import { prisma } from "@/src/lib/prisma";
+
 import { Table } from "@prisma/client";
 import Image from "next/image";
 

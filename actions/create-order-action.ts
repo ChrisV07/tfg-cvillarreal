@@ -24,7 +24,8 @@ export async function createOrder(data: unknown) {
             quantity: product.quantity
           }))
         },
-        tableId: result.data.tableId
+        tableId: result.data.tableId,
+        restaurantID: 'th3r35t0'
       }
     })
     console.log(result.data);

@@ -4,18 +4,21 @@ import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
 import { createProduct } from "@/actions/create-product-action";
 import { useRouter } from "next/navigation";
+import { useCurrentRestaurant, useCurrentUser } from "@/hooks/use-current-session";
 
 
 export default function AddProductForm({children} : {children : React.ReactNode}) {
 
     const router = useRouter()
+    const restaurantID = useCurrentRestaurant()
     
     const handleSubmit = async (formData: FormData) => {
         const data = {
             name: formData.get('name'),
             price: formData.get('price'),
             categoryId: formData.get('categoryId'),
-            image: formData.get('image')
+            image: formData.get('image'),
+            restaurantID
         }
 
         const result = ProductSchema.safeParse(data)

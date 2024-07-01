@@ -8,11 +8,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { FaUser } from "react-icons/fa";
-import { useCurrentUser } from "@/hooks/use-current-user";
+import { useCurrentUser } from "@/hooks/use-current-session";
 import { LogOutButton } from "./logout-button";
 import Image from "next/image";
-import { Button } from "../ui/button";
-import { redirect } from "next/navigation";
+
+import Link from "next/link";
 
 export const UserButton = () => {
   const user = useCurrentUser();
@@ -32,11 +32,13 @@ export const UserButton = () => {
                 Cerrar Sesión
             </DropdownMenuItem>
           </LogOutButton>) : (
-            
+            <Link href={'/auth/login'}>
             <DropdownMenuItem>
+                
                 <Image src='/LogOut.svg' width={40} height={40} alt="signout"/>
                 Iniciar Sesión
             </DropdownMenuItem>
+                </Link>
         ) }
           
         </DropdownMenuContent>

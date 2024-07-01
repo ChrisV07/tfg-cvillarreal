@@ -2,9 +2,10 @@
 
 import { prisma } from "@/src/lib/prisma"
 import { TableSchema } from "@/src/schemas"
+import { Table } from "@prisma/client"
 import { revalidatePath } from "next/cache"
 
-export async function updateTable(data: unknown, id: number){
+export async function updateTable(data: unknown, id: Table['id']){
 
     const result = TableSchema.safeParse(data)
 
@@ -19,5 +20,6 @@ export async function updateTable(data: unknown, id: number){
         },
         data: result.data
     })
+    
     revalidatePath('/admin/tables')
 }
