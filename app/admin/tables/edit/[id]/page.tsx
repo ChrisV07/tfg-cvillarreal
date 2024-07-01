@@ -3,9 +3,10 @@ import TabletForm from "@/components/tables/TableForm";
 import GoBackButton from "@/components/ui/GoBackButton";
 import Heading from "@/components/ui/Heading";
 import { prisma } from "@/src/lib/prisma";
+import { Table } from "@prisma/client";
 import { notFound } from "next/navigation";
 
-async function getTablesById(id: number) {
+async function getTablesById(id: Table['id']) {
   const table = await prisma.table.findUnique({
     where: {
       id,
@@ -22,7 +23,7 @@ export default async function EditTablesPage({
 }: {
   params: { id: string };
 }) {
-  const table = await getTablesById(+params.id);
+  const table = await getTablesById(params.id);
 
   return (
     <>

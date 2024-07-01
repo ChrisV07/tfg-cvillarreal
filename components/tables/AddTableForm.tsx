@@ -4,17 +4,21 @@ import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
 import { createTable } from "@/actions/create-table-action";
 import { useRouter } from "next/navigation";
+import { useCurrentRestaurant, useCurrentUser } from "@/hooks/use-current-session";
 
 
 export default function AddTableForm({children} : {children : React.ReactNode}) {
 
-    const router = useRouter()
+    const router = useRouter();
+    const restaurantID  = useCurrentRestaurant();
     
     const handleSubmit = async (formData: FormData) => {
         const data = {
             name: formData.get('name'),
             ubication: formData.get('ubication'),
-            qr: `qr_${formData.get('name')}_${formData.get('ubication')}.jpg`
+            qr: `qr_${formData.get('name')}_${formData.get('ubication')}.jpg`,
+            restaurantID
+
         }
 
         const result = TableSchema.safeParse(data)

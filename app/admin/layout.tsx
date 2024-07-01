@@ -2,6 +2,8 @@ import ToastNotification from "@/components/ui/ToastNotification";
 import AdminSidebar from "@/components/admin/AdminSidebar";
 import { auth} from "@/auth";
 import { redirect } from "next/navigation";
+import { SessionProvider } from "next-auth/react";
+
 
 export default async function AdminLayout({
     children,
@@ -17,6 +19,7 @@ export default async function AdminLayout({
    
     return (
         <>
+        <SessionProvider session={session}>
             <div className="md:flex">
                 <aside className="md:w-72 md:h-screen bg-white">
                     <AdminSidebar />
@@ -28,6 +31,7 @@ export default async function AdminLayout({
             </div>
 
             <ToastNotification />
+            </SessionProvider>
         </>
     )
 }

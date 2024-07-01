@@ -3,7 +3,7 @@
 import OrderCard from "@/components/order/OrderCard";
 import Heading from "@/components/ui/Heading";
 import Logo from "@/components/ui/Logo";
-import { useCurrentUser } from "@/hooks/use-current-user";
+import { useCurrentUser } from "@/hooks/use-current-session";
 import { OrderWithProducts } from "@/src/types";
 import { redirect } from "next/navigation";
 import React from "react";
@@ -24,7 +24,9 @@ export default function OrderPages() {
 
   if (isLoading) return <p>Cargando...</p>;
 
-  if (data)
+  if (data) {
+    const orders = data.filter((order) => order.restaurantID === user.restaurantID)
+  
     return (
       <>
         <h1 className="text-4xl text-center font-black mt-10">Cocina</h1>
@@ -33,9 +35,9 @@ export default function OrderPages() {
           <Heading>Administrar Ordenes</Heading>
 
 
-        {data.length ? (
+        {orders.length ? (
           <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-5 mt-5">
-            {data.map((order) => (
+            {orders.map((order) => (
               <OrderCard key={order.id} order={order} />
             ))}
           </div>
@@ -48,4 +50,5 @@ export default function OrderPages() {
       </>
     );}
     redirect('/api/auth/signout')
+}
 }

@@ -1,9 +1,10 @@
 "use server"
 
 import { prisma } from "@/src/lib/prisma";
+import { Table } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
-export async function deleteTable(tableId: number) {
+export async function deleteTable(tableId: Table['id']) {
   try {
     await prisma.table.delete({
       where: {

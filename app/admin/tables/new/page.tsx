@@ -6,10 +6,11 @@ import Heading from "@/components/ui/Heading";
 export default function page() {
   return (
     <>
+      
         <Heading>Nueva Mesa</Heading>
 
         <AddTableForm>
-          <TableForm/>
+          <TableForm showQr={false}/>
         </AddTableForm>
 
 
