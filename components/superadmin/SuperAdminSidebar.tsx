@@ -1,38 +1,26 @@
 import Image from "next/image";
 import Logo from "../ui/Logo";
-import AdminRoute from "./AdminRoute";
+import SuperAdminRoute from "./SuperAdminRoute";
 import { auth, signOut } from "@/auth";
 
 const adminNavigation = [
     
   {
-    url: "/admin/products",
-    text: "Productos",
+    url: "/superadmin/restaurants",
+    text: "Restaurantes",
     blank: false,
-    image: "/Productos.svg",
+    image: "/Restaurantes.svg",
   },
   {
-    url: "/admin/tables",
-    text: "Administrar Mesas",
+    url: "/superadmin/users",
+    text: "Usuarios",
     blank: false,
-    image: "/Mesas.svg",
+    image: "/Users.svg",
   },
-  {
-    url: "/orders/kitchenorders",
-    text: "Ordenes Cocina",
-    blank: true,
-    image: "/Orders.svg",
-  },
-  {
-    url: "/orders/readyorders",
-    text: "Ordenes Listas",
-    blank: true,
-    image: "/Orders.svg",
-  },
-  { url: "/menu/cafe", text: "Ver Menú", blank: true, image: "/Menu.svg" },
+  
 ];
 
-export default async function AdminSidebar() {
+export default async function SuperAdminSidebar() {
   return (
     <>
       <div className="print:hidden ">
@@ -43,7 +31,7 @@ export default async function AdminSidebar() {
           </p>
           <nav className="flex flex-col">
             {adminNavigation.map((link) => (
-              <AdminRoute key={link.url} link={link} />
+              <SuperAdminRoute key={link.url} link={link} />
             ))}
           </nav>
           <div className="flex items-center gap-4 w-full p-3 pt-2">

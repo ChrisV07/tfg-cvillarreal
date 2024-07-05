@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Quiosco de comida",
-  description: "Quiosco de comidas",
+  title: "Sistema de Gestion Integral de Restaurantes - TFG - S21",
+  description: "Desarrollado por Christian Ezequiel Villarreal para la tesis final de ingenieria en software",
 };
 
 export default function RootLayout({
