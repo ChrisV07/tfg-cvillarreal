@@ -9,11 +9,11 @@ import Pagination from "@/components/ui/Pagination";
 
 type ProductTableProps = {
   products: ProductsWithCategory;
-  initialPage: number;
-  pageSize: number;
+  initialPage?: number;
+  pageSize?: number;
 };
 
-export default function ProductTable({ products, initialPage, pageSize }: ProductTableProps) {
+export default function ProductTable({ products, initialPage = 1, pageSize = 10 }: ProductTableProps) {
   const restaurantID = useCurrentRestaurant();
   const [filteredProducts, setFilteredProducts] = useState<ProductsWithCategory>([]);
   const [currentPage, setCurrentPage] = useState(initialPage);

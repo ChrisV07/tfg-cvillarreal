@@ -8,7 +8,7 @@ export default function LatestOrderItem({order}: LatestOrderItemProps) {
   return (
     <div className="bg-white shadow p-5 space-y-5 rounded-lg">
         <p className="text-2xl text-center font-bold text-slate-600">
-            Mesa: 15
+            {order.table.name}
         </p>
         <p className="text-2xl font-bold text-slate-600">
             Cliente: {order.name}
