@@ -29,7 +29,7 @@ const adminNavigation = [
     blank: true,
     image: "/Orders.svg",
   },
-  { url: "/order/cafe", text: "Ver Menú", blank: true, image: "/Menu.svg" },
+  { url: "/menu/cafe", text: "Ver Menú", blank: true, image: "/Menu.svg" },
 ];
 
 export default async function AdminSidebar() {

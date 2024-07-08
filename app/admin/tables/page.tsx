@@ -39,6 +39,12 @@ export default async function TablesPage({
         >
           Crear Mesa
         </Link>
+        <Link
+          href={"/admin/tables/print-qrs"}
+          className="bg-pink-600 rounded-xl w-full lg:w-auto text-xl px-10 py-3 text-white text-center font-bold cursor-pointer hover:bg-pink-800 "
+        >
+          Imprimir QR's
+        </Link>
       </div>
 
       <TablesTable tables={tables} initialPage={page} pageSize={pageSize} />
