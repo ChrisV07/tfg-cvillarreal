@@ -3,7 +3,7 @@ import { OrderWithProducts } from "@/src/types"
 import { formatCurrency } from "@/src/utils"
 
 type OrderCardProps = {
-    order: OrderWithProducts 
+    order: OrderWithProducts
 }
 
 
@@ -15,7 +15,7 @@ export default function OrderCard({ order }: OrderCardProps) {
             aria-labelledby="summary-heading"
             className="mt-16 rounded-xl bg-gray-50 px-4 py-6 sm:p-6  lg:mt-0 lg:p-8 space-y-4"
         >
-            <p className='text-2xl font-medium text-gray-900'>Mesa: {order.tableId}</p>
+            <p className='text-2xl font-medium text-gray-900'>{order.table.name}</p>
             <p className='text-2xl font-medium text-gray-900'>Cliente: {order.name}</p>
             <p className='text-lg font-medium text-gray-900'>Productos Ordenados:</p>
             <dl className="mt-6 space-y-4">

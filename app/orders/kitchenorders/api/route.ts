@@ -12,7 +12,8 @@ export async function GET() {
                 include: {
                     product: true,
                 }
-            }
+            },
+            table: true
         }
     })
     return Response.json(orders)
