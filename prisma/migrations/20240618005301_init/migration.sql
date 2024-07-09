@@ -48,8 +48,8 @@ CREATE TABLE "Order" (
     "name" TEXT NOT NULL,
     "total" DOUBLE PRECISION NOT NULL,
     "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "status" BOOLEAN NOT NULL DEFAULT false,
-    "orderReadyAt" TIMESTAMP(3),
+    "cooked" BOOLEAN NOT NULL DEFAULT false,
+    "orderCookedAt" TIMESTAMP(3),
     "tableId" TEXT NOT NULL,
     "restaurantID" TEXT NOT NULL,
 

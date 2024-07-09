@@ -63,9 +63,9 @@ export default function ProductTable({ products, initialPage = 1, pageSize = 10 
                     </th>
                     <th
                       scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                      className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900"
                     >
-                      <span className="sr-only">Acciones</span>
+                      Acciones
                     </th>
                   </tr>
                 </thead>

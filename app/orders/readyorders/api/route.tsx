@@ -4,10 +4,11 @@ export async function GET() {
   const orders = await prisma.order.findMany({
     take: 10,
     where: {
-      status: true,
+      cooked: true,
+      delivered: false,
     },
     orderBy: {
-      orderReadyAt: 'desc',
+      orderCookedAt: 'desc',
     },
     include: {
       orderProducts: {

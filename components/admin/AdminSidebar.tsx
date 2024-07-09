@@ -21,13 +21,19 @@ const adminNavigation = [
     url: "/orders/kitchenorders",
     text: "Ordenes Cocina",
     blank: true,
-    image: "/Orders.svg",
+    image: "/OrdersKitchen.svg",
   },
   {
     url: "/orders/readyorders",
     text: "Ordenes Listas",
     blank: true,
-    image: "/Orders.svg",
+    image: "/OrdersReady.svg",
+  },
+  {
+    url: "/admin/orders_history",
+    text: "Historial de Ordenes",
+    blank: true,
+    image: "/OrdersHistory.svg",
   },
   { url: "/menu/cafe", text: "Ver Menú", blank: true, image: "/Menu.svg" },
 ];
@@ -46,23 +52,7 @@ export default async function AdminSidebar() {
               <AdminRoute key={link.url} link={link} />
             ))}
           </nav>
-          <div className="flex items-center gap-4 w-full p-3 pt-2">
-            <div className="w-16 h-16 relative">
-              <Image src="/LogOut.svg" alt="imagen categoria" fill />
-            </div>
-            <div>
-              <form
-                action={async () => {
-                  "use server";
-                  await signOut({redirectTo:'/auth/login'})
-                }}
-              >
-                <button className="text-xl font-bold" type="submit">
-                  Cerrar Sesión
-                </button>
-              </form>
-            </div>
-          </div>
+          
         </div>
       </div>
     </>

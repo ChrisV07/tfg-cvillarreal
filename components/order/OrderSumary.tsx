@@ -66,7 +66,7 @@ export default function OrderSummary() {
             <ProductDetails key={item.id} item={item} />
           ))}
 
-          <p className="text-2xl mt-20 text-center">
+          <p className="text-2xl mt-8 text-center">
             Total a Pagar: {""}
             <span className="font-bold">{formatCurrency(total)}</span>
           </p>

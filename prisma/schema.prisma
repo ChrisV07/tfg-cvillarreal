@@ -61,8 +61,10 @@ model Order {
   name          String
   total         Float
   date          DateTime        @default(now())
-  status        Boolean         @default(false)
-  orderReadyAt  DateTime?
+  cooked        Boolean         @default(false)
+  orderCookedAt  DateTime?
+  delivered     Boolean         @default(false)
+  orderDeliveredAt  DateTime?
   orderProducts OrderProducts[]
   table         Table           @relation(fields: [tableId], references: [id])
   tableId       String
