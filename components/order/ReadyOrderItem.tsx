@@ -1,10 +1,11 @@
+import { deliverOrder } from "@/actions/deliver-order-action"
 import { OrderWithProducts } from "@/src/types"
 
-type LatestOrderItemProps = {
+type ReadyOrderItemProps = {
     order: OrderWithProducts
 }
 
-export default function LatestOrderItem({order}: LatestOrderItemProps) {
+export default function ReadyOrderItem({order}: ReadyOrderItemProps) {
   return (
     <div className="bg-white shadow p-5 space-y-5 rounded-lg">
         <p className="text-2xl text-center font-bold text-slate-600">
@@ -32,6 +33,14 @@ export default function LatestOrderItem({order}: LatestOrderItemProps) {
                 </li>
             ))}
         </ul>
+        <form action={deliverOrder} className="mt-auto">
+        <input type="hidden" value={order.id} name="order_id" />
+        <input
+          type="submit"
+          className="bg-pink-600 hover:bg-pink-800 text-white w-full mt-5 p-3 uppercase font-bold cursor-pointer rounded-xl"
+          value="Marcar Orden como Entregada"
+        />
+      </form>
 
     </div>
   )

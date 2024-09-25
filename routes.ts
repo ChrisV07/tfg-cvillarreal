@@ -4,12 +4,7 @@
  * @type {string[]}
  */
 export const publicRoutes = [
-    "/menu/cafe",
-    "/menu/hamburguesa",
-    "/menu/pizza",
-    "/menu/dona",
-    "/menu/pastel",
-    "/menu/galletas",
+    "/menu/:path*",
     "/auth/new-verification",
     "/mozo_virtual",
     

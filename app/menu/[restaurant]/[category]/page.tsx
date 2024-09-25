@@ -3,9 +3,10 @@ import Heading from "@/components/ui/Heading";
 import { prisma } from "@/src/lib/prisma";
 import Link from "next/link";
 
-async function getProducts(category: string) {
+async function getProducts(category: string, restaurantID: string) {
   const products = await prisma.product.findMany({
     where: {
+      restaurantID: restaurantID,
       category: {
         slug: category,
       },
@@ -14,11 +15,11 @@ async function getProducts(category: string) {
   return products;
 }
 
-export default async function OrderPage({ params }: { params: { category: string } }) {
-  const products = await getProducts(params.category);
+export default async function OrderPage({ params }: { params: { category: string; restaurant: string } }) {
+  const products = await getProducts(params.category, params.restaurant);
 
   return (
-    <>
+    <div className="flex-1">
       <div className="flex flex-col lg:flex-row items-center justify-between p-5 space-y-5 lg:space-y-0">
         <Heading>Elige y personaliza tu pedido a continuación</Heading>
         <div className="flex justify-center lg:justify-end w-full lg:w-auto">
@@ -36,6 +37,6 @@ export default async function OrderPage({ params }: { params: { category: string
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
-    </>
+    </div>
   );
 }

@@ -1,3 +1,4 @@
+import { restaurants } from "@/prisma/data/restaurant";
 import { z } from "zod";
 
 export const RestaurantSchema = z.object({
@@ -6,7 +7,6 @@ export const RestaurantSchema = z.object({
 
 export const OrderSchema = z.object({
   name: z.string().min(1, "Tu nombre es obligatorio."),
-
   total: z.number().min(1, "Hay errores en la orden"),
   order: z.array(
     z.object({
@@ -17,6 +17,7 @@ export const OrderSchema = z.object({
       subtotal: z.number(),
     })
   ),
+  restaurantID: z.string(),
   tableId: z.string().min(1, "No se ha Asignado Mesa"),
 });
 

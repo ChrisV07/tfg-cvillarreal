@@ -1,5 +1,6 @@
 "use client";
 
+import { UserButton } from "@/components/auth/user-button";
 import OrderCard from "@/components/order/OrderCard";
 import Heading from "@/components/ui/Heading";
 import Logo from "@/components/ui/Logo";
@@ -29,6 +30,9 @@ export default function OrderPages() {
   
     return (
       <>
+      <div className="flex justify-end">
+        <UserButton/>
+      </div>
         <h1 className="text-4xl text-center font-black mt-10">Cocina</h1>
 
 

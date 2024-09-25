@@ -8,6 +8,8 @@ import { OrderSchema } from "@/src/schemas";
 import { toast } from "react-toastify";
 import { UserButton } from "../auth/user-button";
 import ScrollToBottom from "@/components/order/ScrollToBottom"
+import { useParams } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export default function OrderSummary() {
   const order = useStore((state) => state.order);
@@ -19,6 +21,9 @@ export default function OrderSummary() {
     [order]
   );
 
+  const params = useParams<{restaurant: string}>();
+  const { data: session } = useSession();
+
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const paramTableId = urlParams.get("table");
@@ -29,10 +34,11 @@ export default function OrderSummary() {
 
   const handleCreateOrder = async (formData: FormData) => {
     const data = {
-      name: formData.get("name"),
+      name: session?.user?.name || formData.get("name"),
       total,
       order,
       tableId: tableId,
+      restaurantID: params.restaurant 
     };
 
     const result = OrderSchema.safeParse(data);
@@ -66,18 +72,27 @@ export default function OrderSummary() {
             <ProductDetails key={item.id} item={item} />
           ))}
 
-          <p className="text-2xl mt-20 text-center">
+          <p className="text-2xl mt-8 text-center">
             Total a Pagar: {""}
             <span className="font-bold">{formatCurrency(total)}</span>
           </p>
 
           <form className="w-full mt-10 space-y-5" action={handleCreateOrder}>
-            <input
-              type="text"
-              placeholder="Ingresa Tu Nombre"
-              className="bg-white border border-gray-200 p-2 w-full rounded-xl"
-              name="name"
-            />
+            {session?.user ? (
+              <h2 className="text-xl font-semibold text-center">
+                Orden a Nombre de: 
+                <br />
+                <span className="font-normal capitalize">{session.user.name}</span>
+              </h2>
+            ) : (
+              <input
+                type="text"
+                placeholder="Ingresa Tu Nombre"
+                className="bg-white border border-gray-200 p-2 w-full rounded-xl"
+                name="name"
+                required
+              />
+            )}
 
             <input
               type="submit"
@@ -86,13 +101,10 @@ export default function OrderSummary() {
             />
           </form>
         </div>
-        
       )}
-       <div className="sm:hidden mt-5">
-          <ScrollToBottom itemCount={order.length} />
-        
-        </div>
+      <div className="sm:hidden mt-5">
+        <ScrollToBottom itemCount={order.length} />
+      </div>
     </aside>
-    
   );
 }

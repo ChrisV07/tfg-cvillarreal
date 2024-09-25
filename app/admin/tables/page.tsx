@@ -1,3 +1,4 @@
+import { UserButton } from "@/components/auth/user-button";
 import TablesTable from "@/components/tables/TablesTable";
 import Heading from "@/components/ui/Heading";
 import { prisma } from "@/src/lib/prisma";
@@ -23,11 +24,14 @@ export default async function TablesPage({
   const tablesData = getTables();
   const totalTablesData = tableCount();
 
-  const [tables, totalTables] = await Promise.all([tablesData, totalTablesData]);
-  const totalPages = Math.ceil(totalTables / pageSize);
+  const [tables] = await Promise.all([tablesData, totalTablesData]);
+
 
   return (
     <>
+    <div className="flex justify-end">
+        <UserButton />
+      </div>
       <div className="text-center">
         <Heading>Administrar Mesas</Heading>
       </div>
