@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
 import { createProduct } from "@/actions/create-product-action";
 import { useRouter } from "next/navigation";
-import { useCurrentRestaurant, useCurrentUser } from "@/hooks/use-current-session";
+import { useCurrentRestaurant } from "@/hooks/use-current-session";
 
 
 export default function AddProductForm({children} : {children : React.ReactNode}) {

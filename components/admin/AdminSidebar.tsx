@@ -4,7 +4,6 @@ import AdminRoute from "./AdminRoute";
 import { auth, signOut } from "@/auth";
 
 const adminNavigation = [
-    
   {
     url: "/admin/products",
     text: "Productos",
@@ -35,7 +34,16 @@ const adminNavigation = [
     blank: true,
     image: "/OrdersHistory.svg",
   },
-  { url: "/menu/cafe", text: "Ver Menú", blank: true, image: "/Menu.svg" },
+  { 
+    url: "/menu/cafe", 
+    text: "Feedback", 
+    blank: false, 
+    image: "/Feedback.svg" },
+  { 
+    url: "/menu/cafe", 
+    text: "Ver Menú", 
+    blank: true, 
+    image: "/Menu.svg" },
 ];
 
 export default async function AdminSidebar() {
@@ -52,7 +60,6 @@ export default async function AdminSidebar() {
               <AdminRoute key={link.url} link={link} />
             ))}
           </nav>
-          
         </div>
       </div>
     </>

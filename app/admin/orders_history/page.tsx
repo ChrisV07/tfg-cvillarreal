@@ -10,6 +10,9 @@ async function ordersCount() {
 
 async function getOrders() {
   const orders = await prisma.order.findMany({
+    orderBy: {
+      date: "desc"
+    },
     include: {
       orderProducts: {
         include: {

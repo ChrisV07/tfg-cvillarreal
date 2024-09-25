@@ -25,7 +25,7 @@ export async function createOrder(data: unknown) {
           }))
         },
         tableId: result.data.tableId,
-        restaurantID: 'th3r35t0'
+        restaurantID: result.data.restaurantID,
       }
     })
     console.log(result.data);

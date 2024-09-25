@@ -69,6 +69,12 @@ export default function OrdersTable({ orders, initialPage = 1, pageSize = 10 }: 
                     </th>
                     <th
                       scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
+                      Total
+                    </th>
+                    <th
+                      scope="col"
                       className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900"
                     >
                       Acciones
@@ -91,14 +97,17 @@ export default function OrdersTable({ orders, initialPage = 1, pageSize = 10 }: 
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                         {formatDate(order.date.toString())}
                       </td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                        {formatCurrency(order.total)}
+                      </td>
                       <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                         <Link
                           href={`/admin/orders_history/details/${order.id}`}
                           className="text-violet-800 hover:text-violet-400 px-8"
                         >
-                          Ver Orden <span className="sr-only">, {order.name}</span>
+                          Ver Detalles <span className="sr-only">, {order.name}</span>
                         </Link>
-                        <DeleteProductButton id={order.id} />
+
                       </td>
                     </tr>
                   ))}

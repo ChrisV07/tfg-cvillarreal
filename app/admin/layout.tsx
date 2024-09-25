@@ -22,7 +22,7 @@ export default async function AdminLayout({
         <>
         <SessionProvider session={session}>
             <div className="md:flex">
-                <aside className="md:w-72 md:h-screen bg-white">
+                <aside className="md:w-80 md:h-screen bg-white">
                     <AdminSidebar />
                 </aside>
 
