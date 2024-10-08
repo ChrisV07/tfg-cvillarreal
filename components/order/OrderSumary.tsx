@@ -12,7 +12,7 @@ import { useParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { requestBill } from "@/actions/request-bill-action";
 
-type PaymentMethod = "EFECTIVO" | "TRANSFERENCIA" | "TARJETA";
+type PaymentMethod = "efectivo" | "transferencia" | "tarjeta";
 
 export default function OrderSummary() {
   const order = useStore((state) => state.order);
@@ -22,7 +22,7 @@ export default function OrderSummary() {
   const clearOrder = useStore((state) => state.clearOrder);
   const [isBillRequested, setIsBillRequested] = useState(false);
   const [isPolling, setIsPolling] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("EFECTIVO");
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("efectivo");
   const [cashAmount, setCashAmount] = useState<string>("");
   const [showPaymentOptions, setShowPaymentOptions] = useState(false);
   const [dailyOrderId, setDailyOrderId] = useState<string>("");
@@ -53,8 +53,10 @@ export default function OrderSummary() {
         if (data.total !== undefined) {
           setDailyOrderTotal(data.total);
         }
+        console.log('DATA IS BILL REQUESTED',data.isBillRequested);
         setIsBillRequested(data.isBillRequested || false);
         setDailyOrderId(data.dailyOrderId || "");
+        
         return data.isBillRequested;
       } catch (error) {
         console.error("Error fetching daily order total:", error);
@@ -148,7 +150,7 @@ export default function OrderSummary() {
   };
 
   const handleConfirmBillRequest = async () => {
-    if (paymentMethod === "EFECTIVO") {
+    if (paymentMethod === "efectivo") {
       const cashAmountValue = parseFloat(cashAmount);
       if (isNaN(cashAmountValue) || cashAmountValue < dailyOrderTotal) {
         toast.error(
@@ -162,8 +164,9 @@ export default function OrderSummary() {
     const response = await requestBill(
       tableId,
       paymentMethod,
-      paymentMethod === "EFECTIVO" ? parseFloat(cashAmount) : undefined
+      paymentMethod === "efectivo" ? parseFloat(cashAmount) : undefined
     );
+
     if (response.error) {
       toast.error(response.error, { theme: "dark" });
     } else {
@@ -249,11 +252,11 @@ export default function OrderSummary() {
               className="w-full p-2 border border-gray-300 rounded-md"
               aria-label="Método de pago"
             >
-              <option value="EFECTIVO">Efectivo</option>
-              <option value="TRANSFERENCIA">Transferencia</option>
-              <option value="TARJETA">Tarjeta</option>
+              <option value="efectivo">Efectivo</option>
+              <option value="transferencia">Transferencia</option>
+              <option value="tarjeta">Tarjeta</option>
             </select>
-            {paymentMethod === "EFECTIVO" && (
+            {paymentMethod === "efectivo" && (
               <input
                 type="number"
                 value={cashAmount}

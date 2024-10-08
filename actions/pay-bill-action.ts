@@ -4,6 +4,8 @@ import { prisma } from "@/src/lib/prisma";
 
 export async function payBill(formData: FormData) {
   const dailyOrderId = formData.get("dailyOrderId") as string;
+  console.log('Daily order id: ',dailyOrderId);
+  
   try {
     const dailyOrder = await prisma.dailyOrder.findFirst({
       where: {

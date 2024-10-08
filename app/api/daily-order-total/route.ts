@@ -1,12 +1,11 @@
-// src/app/api/daily-order-total/route.ts
-import { NextRequest, NextResponse } from 'next/server';
+import { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from "@/src/lib/prisma";
 
-export async function GET(request: NextRequest) {
-  const tableId = request.nextUrl.searchParams.get('tableId');
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const tableId = req.query.tableId as string;
 
   if (!tableId) {
-    return NextResponse.json({ error: 'Table ID is required' }, { status: 400 });
+    return res.status(400).json({ error: 'Table ID is required' });
   }
 
   try {
@@ -21,17 +20,19 @@ export async function GET(request: NextRequest) {
       select: {
         id: true,
         total: true,
-        isBillRequested: true
+        isBillRequested: true,
+        isClosed: true
       }
     });
 
-    return NextResponse.json({
+    return res.json({
       total: dailyOrder?.total || 0,
       isBillRequested: dailyOrder?.isBillRequested || false,
+      isClosed: dailyOrder?.isClosed || false,
       dailyOrderId: dailyOrder?.id || ""
     });
   } catch (error) {
     console.error('Error fetching daily order total:', error);
-    return NextResponse.json({ error: 'Failed to fetch daily order total' }, { status: 500 });
+    return res.status(500).json({ error: 'Failed to fetch daily order total' });
   }
 }

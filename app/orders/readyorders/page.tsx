@@ -24,13 +24,13 @@ export default function ReadyOrdersPage() {
 
   const urlReadyOrders = '/api/ready-orders';
   const { data: readyOrders, error: errorReadyOrders, isLoading: isLoadingReadyOrders } = useSWR<OrderWithProducts[]>(urlReadyOrders, fetcher, {
-    refreshInterval: 5000,
+    refreshInterval: 1000,
     revalidateOnFocus: false,
   });
 
   const urlRequestedBillOrders = '/api/requested-bill-orders';
   const { data: requestedBillOrders, error: errorRequestedBillOrders, isLoading: isLoadingRequestedBillOrders } = useSWR<DailyOrderWithProducts[]>(urlRequestedBillOrders, fetcher, {
-    refreshInterval: 5000,
+    refreshInterval: 1000,
     revalidateOnFocus: false,
   });
 

@@ -60,9 +60,9 @@ model Table {
 }
 
 enum PaymentMethod {
-  EFECTIVO
-  TRANSFERENCIA
-  TARJETA
+  efectivo
+  transferencia
+  tarjeta
 }
 
 model DailyOrder {

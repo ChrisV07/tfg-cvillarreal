@@ -39,7 +39,7 @@ export default function OrderCard({ order }: OrderCardProps) {
         <input
           type="submit"
           className="bg-pink-600 hover:bg-pink-800 text-white w-full mt-5 p-3 uppercase font-bold cursor-pointer rounded-xl"
-          value="Marcar Orden Completada"
+          value="Marcar orden  Lista para entregar"
         />
       </form>
     </section>

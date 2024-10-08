@@ -81,7 +81,7 @@ export const useStore = create(
         }));
       },
       clearOrder: () => {
-        set({ order: [] });
+        set({ order: [] , dailyOrderTotal:0});
       },
       setTableId: (tableId) => set({ tableId }),
       setDailyOrderTotal: (total) => set({ dailyOrderTotal: total }), // Implementación de la función
