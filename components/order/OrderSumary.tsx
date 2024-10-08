@@ -53,7 +53,7 @@ export default function OrderSummary() {
         if (data.total !== undefined) {
           setDailyOrderTotal(data.total);
         }
-        console.log('DATA IS BILL REQUESTED',data.isBillRequested);
+        console.log('DATA IS BILL REQUESTED:',data.isBillRequested);
         setIsBillRequested(data.isBillRequested || false);
         setDailyOrderId(data.dailyOrderId || "");
         

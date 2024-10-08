@@ -1,11 +1,11 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from "@/src/lib/prisma";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const tableId = req.query.tableId as string;
+export async function GET(request: NextRequest) {
+  const tableId = request.nextUrl.searchParams.get('tableId');
 
   if (!tableId) {
-    return res.status(400).json({ error: 'Table ID is required' });
+    return NextResponse.json({ error: 'Table ID is required' }, { status: 400 });
   }
 
   try {
@@ -25,14 +25,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     });
 
-    return res.json({
+    return NextResponse.json({
       total: dailyOrder?.total || 0,
       isBillRequested: dailyOrder?.isBillRequested || false,
       isClosed: dailyOrder?.isClosed || false,
       dailyOrderId: dailyOrder?.id || ""
     });
   } catch (error) {
-    console.error('Error fetching daily order total:', error);
-    return res.status(500).json({ error: 'Failed to fetch daily order total' });
+    console.log('Error fetching daily order total:', error);
+    return NextResponse.json({ error: 'Failed to fetch daily order total' }, { status: 500 });
   }
 }
