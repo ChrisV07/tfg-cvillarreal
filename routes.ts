@@ -7,7 +7,7 @@ export const publicRoutes = [
     "/menu/:path*",
     "/auth/new-verification",
     "/mozo_virtual",
-    
+    "/api/:path*",
 ]
 
 /**

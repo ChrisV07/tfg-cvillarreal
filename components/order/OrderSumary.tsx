@@ -46,24 +46,26 @@ export default function OrderSummary() {
   const fetchDailyOrderTotal = useCallback(async () => {
     if (tableId) {
       try {
-        const response = await fetch(
-          `/api/daily-order-total?tableId=${tableId}`
-        );
+        console.log('Fetching daily order total for tableId:', tableId);
+        const response = await fetch(`/api/daily-order-total?tableId=${tableId}`);
         const data = await response.json();
+        console.log('Daily order total response:', data);
+        console.log("Response status:", response.status);
+        
         if (data.total !== undefined) {
           setDailyOrderTotal(data.total);
         }
-        console.log('DATA IS BILL REQUESTED:',data.isBillRequested);
+        
         setIsBillRequested(data.isBillRequested || false);
         setDailyOrderId(data.dailyOrderId || "");
-        
         return data.isBillRequested;
       } catch (error) {
-        console.error("Error fetching daily order total:", error);
+        console.error("Error fetching daily order total error:", error);
       }
     }
     return false;
   }, [tableId, setDailyOrderTotal]);
+  
 
   useEffect(() => {
     fetchDailyOrderTotal();
@@ -79,10 +81,12 @@ export default function OrderSummary() {
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
-
+  
     if (isPolling) {
+      console.log('Starting polling for bill status...');
       intervalId = setInterval(async () => {
         const billStillRequested = await fetchDailyOrderTotal();
+        console.log('Polling result, isBillRequested:', billStillRequested);
         if (!billStillRequested) {
           resetState();
           toast.success(
@@ -92,9 +96,10 @@ export default function OrderSummary() {
         }
       }, 5000);
     }
-
+  
     return () => {
       if (intervalId) {
+        console.log('Stopping polling for bill status.');
         clearInterval(intervalId);
       }
     };
@@ -102,7 +107,7 @@ export default function OrderSummary() {
 
   const handleCreateOrder = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+  
     if (isBillRequested) {
       toast.error(
         "La cuenta ha sido solicitada. No se pueden crear nuevas órdenes.",
@@ -110,9 +115,8 @@ export default function OrderSummary() {
       );
       return;
     }
-
+  
     const formData = new FormData(event.currentTarget);
-
     const data = {
       name: session?.user?.name || formData.get("name"),
       total,
@@ -120,22 +124,27 @@ export default function OrderSummary() {
       tableId: tableId,
       restaurantID: params.restaurant,
     };
-
+  
+    console.log('Order data being sent:', data);
+  
     const result = OrderSchema.safeParse(data);
     if (!result.success) {
+      console.error('Order validation failed:', result.error);
       result.error.issues.forEach((issue) => {
         toast.error(issue.message, { theme: "dark" });
       });
       return;
     }
-
+  
     const response = await createOrder(data);
+    console.log('Order creation response:', response);
+  
     if (response?.error) {
       toast.error(response.error, { theme: "dark" });
     } else if (response?.success) {
       toast.success("Pedido Realizado Correctamente", { theme: "dark" });
       clearOrder();
-
+      
       if (response.dailyOrderTotal !== undefined) {
         setDailyOrderTotal(response.dailyOrderTotal);
       } else {
@@ -160,13 +169,17 @@ export default function OrderSummary() {
         return;
       }
     }
-
+  
+    console.log('Requesting bill with payment method:', paymentMethod, 'and cash amount:', cashAmount);
+  
     const response = await requestBill(
       tableId,
       paymentMethod,
       paymentMethod === "efectivo" ? parseFloat(cashAmount) : undefined
     );
-
+  
+    console.log('Bill request response:', response);
+  
     if (response.error) {
       toast.error(response.error, { theme: "dark" });
     } else {

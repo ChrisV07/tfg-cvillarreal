@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
       dailyOrderId: dailyOrder?.id || ""
     });
   } catch (error) {
-    console.log('Error fetching daily order total:', error);
-    return NextResponse.json({ error: 'Failed to fetch daily order total' }, { status: 500 });
+    console.log('Error fetching daily order total LOG DESDE API:', error);
+    return NextResponse.json({ error: 'Failed to fetch daily order total LOG DESDE API' }, { status: 500 });
   }
 }
