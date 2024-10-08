@@ -46,11 +46,11 @@ export default function OrderSummary() {
   const fetchDailyOrderTotal = useCallback(async () => {
     if (tableId) {
       try {
-        console.log('Fetching daily order total for tableId:', tableId);
+        //console.log('Fetching daily order total for tableId:', tableId);
         const response = await fetch(`/api/daily-order-total?tableId=${tableId}`);
         const data = await response.json();
-        console.log('Daily order total response:', data);
-        console.log("Response status:", response.status);
+        //console.log('Daily order total response:', data);
+        //console.log("Response status:", response.status);
         
         if (data.total !== undefined) {
           setDailyOrderTotal(data.total);
@@ -83,10 +83,10 @@ export default function OrderSummary() {
     let intervalId: NodeJS.Timeout;
   
     if (isPolling) {
-      console.log('Starting polling for bill status...');
+      //console.log('Starting polling for bill status...');
       intervalId = setInterval(async () => {
         const billStillRequested = await fetchDailyOrderTotal();
-        console.log('Polling result, isBillRequested:', billStillRequested);
+        //console.log('Polling result, isBillRequested:', billStillRequested);
         if (!billStillRequested) {
           resetState();
           toast.success(
@@ -99,7 +99,7 @@ export default function OrderSummary() {
   
     return () => {
       if (intervalId) {
-        console.log('Stopping polling for bill status.');
+        //console.log('Stopping polling for bill status.');
         clearInterval(intervalId);
       }
     };
@@ -125,7 +125,7 @@ export default function OrderSummary() {
       restaurantID: params.restaurant,
     };
   
-    console.log('Order data being sent:', data);
+    //console.log('Order data being sent:', data);
   
     const result = OrderSchema.safeParse(data);
     if (!result.success) {
@@ -137,7 +137,7 @@ export default function OrderSummary() {
     }
   
     const response = await createOrder(data);
-    console.log('Order creation response:', response);
+    //console.log('Order creation response:', response);
   
     if (response?.error) {
       toast.error(response.error, { theme: "dark" });
@@ -170,7 +170,7 @@ export default function OrderSummary() {
       }
     }
   
-    console.log('Requesting bill with payment method:', paymentMethod, 'and cash amount:', cashAmount);
+    //console.log('Requesting bill with payment method:', paymentMethod, 'and cash amount:', cashAmount);
   
     const response = await requestBill(
       tableId,
@@ -178,7 +178,7 @@ export default function OrderSummary() {
       paymentMethod === "efectivo" ? parseFloat(cashAmount) : undefined
     );
   
-    console.log('Bill request response:', response);
+    //console.log('Bill request response:', response);
   
     if (response.error) {
       toast.error(response.error, { theme: "dark" });
