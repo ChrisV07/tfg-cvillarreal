@@ -18,7 +18,8 @@ export const publicRoutes = [
 export const adminRoutes = [
     "/admin",
     "/admin/products",
-    "/admin/tables"
+    "/admin/tables",
+    "/orders/readyorders"
 ]
 
 
