@@ -16,9 +16,8 @@ export const publicRoutes = [
  * @type {string[]}
  */
 export const adminRoutes = [
-    "/admin",
-    "/admin/products",
-    "/admin/tables",
+    "/admin/:path*",
+
 ]
 
 

@@ -35,7 +35,7 @@ const adminNavigation = [
     image: "/OrdersHistory.svg",
   },
   { 
-    url: "/menu/cafe", 
+    url: "/admin/feedback_history", 
     text: "Feedback", 
     blank: false, 
     image: "/Feedback.svg" },
