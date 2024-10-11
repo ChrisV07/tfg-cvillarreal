@@ -27,7 +27,7 @@ export default async function EditTablesPage({
 
   return (
     <>
-        <Heading>Editar Producto: {table.name}</Heading>
+        <Heading>Editar Mesa: {table.name}</Heading>
       <div className="my-6">
         <GoBackButton seccion="Administrar Mesas" />
       </div>

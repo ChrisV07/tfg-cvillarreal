@@ -1,3 +1,4 @@
+import { UserButton } from "@/components/auth/user-button";
 import TablesTable from "@/components/tables/TablesTable";
 import Heading from "@/components/ui/Heading";
 import { prisma } from "@/src/lib/prisma";
@@ -23,11 +24,14 @@ export default async function TablesPage({
   const tablesData = getTables();
   const totalTablesData = tableCount();
 
-  const [tables, totalTables] = await Promise.all([tablesData, totalTablesData]);
-  const totalPages = Math.ceil(totalTables / pageSize);
+  const [tables] = await Promise.all([tablesData, totalTablesData]);
+
 
   return (
     <>
+    <div className="flex justify-end">
+        <UserButton />
+      </div>
       <div className="text-center">
         <Heading>Administrar Mesas</Heading>
       </div>
@@ -38,6 +42,12 @@ export default async function TablesPage({
           className="bg-violet-800 rounded-xl w-full lg:w-auto text-xl px-10 py-3 text-white text-center font-bold cursor-pointer hover:bg-violet-600"
         >
           Crear Mesa
+        </Link>
+        <Link
+          href={"/admin/tables/print-qrs"}
+          className="bg-pink-600 rounded-xl w-full lg:w-auto text-xl px-10 py-3 text-white text-center font-bold cursor-pointer hover:bg-pink-800 "
+        >
+          Imprimir QR's
         </Link>
       </div>
 

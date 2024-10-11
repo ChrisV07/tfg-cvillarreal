@@ -3,6 +3,7 @@ import Heading from "@/components/ui/Heading";
 import { prisma } from "@/src/lib/prisma";
 import Link from "next/link";
 import ProductTable from "@/components/products/ProductsTable";
+import { UserButton } from "@/components/auth/user-button";
 
 async function productCount() {
   return await prisma.product.count();
@@ -30,14 +31,16 @@ export default async function ProductsPage({
   const productsData = getProducts();
   const totalProductsData = productCount();
 
-  const [products, totalProducts] = await Promise.all([
+  const [products] = await Promise.all([
     productsData,
     totalProductsData,
   ]);
-  const totalPages = Math.ceil(totalProducts / pageSize);
 
   return (
     <>
+      <div className="flex justify-end">
+        <UserButton />
+      </div>
       <div className="text-center">
         <Heading>Administrar Productos</Heading>
       </div>
@@ -53,7 +56,11 @@ export default async function ProductsPage({
         <ProductSearchForm />
       </div>
 
-      <ProductTable products={products} initialPage={page} pageSize={pageSize} />
+      <ProductTable
+        products={products}
+        initialPage={page}
+        pageSize={pageSize}
+      />
     </>
   );
 }

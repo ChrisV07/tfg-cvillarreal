@@ -1,5 +1,6 @@
 "use client";
 
+import { UserButton } from "@/components/auth/user-button";
 import OrderCard from "@/components/order/OrderCard";
 import Heading from "@/components/ui/Heading";
 import Logo from "@/components/ui/Logo";
@@ -12,13 +13,14 @@ import useSWR from "swr";
 export default function OrderPages() {
   const user = useCurrentUser()
   if (user?.role == 'KITCHEN_ORDERS' || user?.role == 'RESTO_ADMIN') {
-  const url = "/orders/kitchenorders/api";
+  const url = "/api/kitchen-orders";
+  
   const fetcher = () =>
     fetch(url)
       .then((res) => res.json())
       .then((data) => data);
   const { data, error, isLoading } = useSWR<OrderWithProducts[]>(url, fetcher, {
-    refreshInterval: 60000,
+    refreshInterval: 1000,
     revalidateOnFocus: false,
   });
 
@@ -29,6 +31,9 @@ export default function OrderPages() {
   
     return (
       <>
+      <div className="flex justify-end">
+        <UserButton/>
+      </div>
         <h1 className="text-4xl text-center font-black mt-10">Cocina</h1>
 
 

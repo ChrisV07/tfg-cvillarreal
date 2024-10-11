@@ -1,5 +1,4 @@
 import NextAuth from "next-auth";
-
 import authConfig from "@/auth.config";
 import {
   DEFAULT_LOGIN_REDIRECT,
@@ -14,15 +13,22 @@ export default auth((req) => {
   const { nextUrl, auth } = req;
   const isLoggedIn = !!req.auth;
   
+  const user = auth?.user;
 
-  const user = auth?.user
-
-  console.log("\n user in middleware:>> ", user?.role)
-
+  console.log("\n user in middleware:>> ", user?.role);
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
-  const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
+
+
+  const isPublicRoute = () => {
+    return publicRoutes.some(route => {
+      if (route.endsWith(":path*")) {
+        return nextUrl.pathname.startsWith(route.replace(":path*", ""));
+      }
+      return nextUrl.pathname === route;
+    });
+  };
 
   if (isApiAuthRoute) {
     return;
@@ -35,7 +41,7 @@ export default auth((req) => {
     return;
   }
 
-  if (!isLoggedIn && !isPublicRoute) {
+  if (!isLoggedIn && !isPublicRoute()) {
     return Response.redirect(new URL("/auth/login", nextUrl));
   }
   return;

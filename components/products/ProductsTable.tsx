@@ -9,11 +9,11 @@ import Pagination from "@/components/ui/Pagination";
 
 type ProductTableProps = {
   products: ProductsWithCategory;
-  initialPage: number;
-  pageSize: number;
+  initialPage?: number;
+  pageSize?: number;
 };
 
-export default function ProductTable({ products, initialPage, pageSize }: ProductTableProps) {
+export default function ProductTable({ products, initialPage = 1, pageSize = 10 }: ProductTableProps) {
   const restaurantID = useCurrentRestaurant();
   const [filteredProducts, setFilteredProducts] = useState<ProductsWithCategory>([]);
   const [currentPage, setCurrentPage] = useState(initialPage);
@@ -63,9 +63,9 @@ export default function ProductTable({ products, initialPage, pageSize }: Produc
                     </th>
                     <th
                       scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                      className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900"
                     >
-                      <span className="sr-only">Acciones</span>
+                      Acciones
                     </th>
                   </tr>
                 </thead>

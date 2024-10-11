@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { SessionProvider } from "next-auth/react";
 
 
+
 export default async function AdminLayout({
     children,
 }: Readonly<{
@@ -21,7 +22,7 @@ export default async function AdminLayout({
         <>
         <SessionProvider session={session}>
             <div className="md:flex">
-                <aside className="md:w-72 md:h-screen bg-white">
+                <aside className="md:w-80 md:h-screen bg-white">
                     <AdminSidebar />
                 </aside>
 
@@ -29,7 +30,6 @@ export default async function AdminLayout({
                     {children}
                 </main>
             </div>
-
             <ToastNotification />
             </SessionProvider>
         </>

@@ -4,7 +4,7 @@ import { prisma } from "@/src/lib/prisma";
 import { OrderIdSchema } from "@/src/schemas";
 import { revalidatePath } from "next/cache";
 
-export async function completeOrder(formData: FormData) {
+export async function completeKitchenOrder(formData: FormData) {
 
     const data = {
         orderId : formData.get('order_id')
@@ -19,12 +19,12 @@ export async function completeOrder(formData: FormData) {
                     id: result.data.orderId
                 },
                 data: {
-                    status: true,
-                    orderReadyAt: new Date(Date.now())
+                    cooked: true,
+                    orderCookedAt: new Date(Date.now())
                 }
             })
 
-            revalidatePath('/admin/orders')
+            revalidatePath('/orders/kitchenorders')
 
         } catch (error) {
             console.log(error);
