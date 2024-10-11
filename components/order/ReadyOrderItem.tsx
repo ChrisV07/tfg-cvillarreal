@@ -1,11 +1,11 @@
-import { deliverOrder } from "@/actions/deliver-order-action"
-import { OrderWithProducts } from "@/src/types"
+import { deliverOrder } from "@/actions/deliver-order-action";
+import { OrderWithProducts } from "@/src/types";
 
 type ReadyOrderItemProps = {
-    order: OrderWithProducts
-}
+  order: OrderWithProducts;
+};
 
-export default function ReadyOrderItem({order}: ReadyOrderItemProps) {
+export default function ReadyOrderItem({ order }: ReadyOrderItemProps) {
   return (
     <div className="bg-white shadow rounded-lg flex flex-col h-full">
       <div className="p-5 space-y-4">
@@ -18,20 +18,18 @@ export default function ReadyOrderItem({order}: ReadyOrderItemProps) {
         <p className="text-2xl font-bold text-slate-600 capitalize">
           Cliente: {order.name}
         </p>
+        <p className="text-2xl font-bold text-slate-600 capitalize">
+          Productos Ordenados:
+        </p>
 
-        <ul 
+        <ul
           className="divide-y divide-gray-200 border-t border-gray-200 text-sm font-medium text-gray-500"
           role="list"
         >
-          {order.orderProducts.map(product => (
-            <li
-              key={product.id}
-              className="flex py-4 text-lg"
-            >
+          {order.orderProducts.map((product) => (
+            <li key={product.id} className="flex py-4 text-lg">
               <p>
-                <span className="font-bold">
-                  ({product.quantity}) {' '}
-                </span>
+                <span className="font-bold">({product.quantity}) </span>
                 {product.product.name}
               </p>
             </li>
@@ -50,5 +48,5 @@ export default function ReadyOrderItem({order}: ReadyOrderItemProps) {
         </form>
       </div>
     </div>
-  )
+  );
 }

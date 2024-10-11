@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useEffect } from 'react';
 import useSWR from "swr";
@@ -24,12 +24,12 @@ export default function ReadyOrdersPage() {
   }, [user, router]);
 
   const { data: readyOrders, error: errorReadyOrders, isLoading: isLoadingReadyOrders } = useSWR<OrderWithProducts[]>('/api/ready-orders', fetcher, {
-    refreshInterval: 1000,
+    refreshInterval: 500,
     revalidateOnFocus: false,
   });
 
   const { data: requestedBillOrders, error: errorRequestedBillOrders, isLoading: isLoadingRequestedBillOrders } = useSWR<DailyOrderWithProducts[]>('/api/requested-bill-orders', fetcher, {
-    refreshInterval: 1000,
+    refreshInterval: 500,
     revalidateOnFocus: false,
   });
 
@@ -41,32 +41,34 @@ export default function ReadyOrdersPage() {
   const filteredReadyOrders = readyOrders?.filter(order => order.restaurantID === user.restaurantID) || [];
   const filteredRequestedBillOrders = requestedBillOrders?.filter(order => order.restaurantID === user.restaurantID) || [];
 
+  const hasOrders = filteredReadyOrders.length > 0 || filteredRequestedBillOrders.length > 0;
+
   return (
     <>
       <div className="flex justify-end">
         <UserButton />
       </div>
-      <h1 className="text-center mt-20 text-4xl font-black">Ordenes Listas</h1>
+      <h1 className="text-center mt-10 text-4xl font-black">Órdenes Listas</h1>
 
-      <Heading>Administrar Ordenes</Heading>
+      <Heading>Administrar Órdenes</Heading>
 
-      <Logo />
+      {!hasOrders && <Logo />} {/* Mostrar logo solo si no hay órdenes */}
 
-      {filteredReadyOrders.length || filteredRequestedBillOrders.length ? (
+      {hasOrders ? (
         <>
-          <div className="grid grid-cols-2 gap-5 max-w-5xl mx-auto mt-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-5 mt-5">
             {filteredReadyOrders.map(readyOrder => (
               <ReadyOrderItem key={readyOrder.id} order={readyOrder} />
             ))}
           </div>
-          <div className="grid grid-cols-2 gap-5 max-w-5xl mx-auto mt-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-5 mt-5">
             {filteredRequestedBillOrders.map(requestedBillOrder => (
               <RequestedBillOrder key={requestedBillOrder.id} dailyOrder={requestedBillOrder} />
             ))}
           </div>
         </>
       ) : (
-        <p className="text-center my-10 text-xl">No Hay Ordenes </p>
+        <p className="text-center my-10 text-xl">No hay órdenes pendientes</p>
       )}
     </>
   );

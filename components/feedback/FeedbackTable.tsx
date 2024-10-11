@@ -6,6 +6,7 @@ import Link from "next/link"
 import { useCurrentRestaurant } from "@/hooks/use-current-session"
 import Pagination from "@/components/ui/Pagination"
 import { FeedbackWithRestaurant } from "@/src/types"
+import { Star } from 'lucide-react'
 
 type FeedbackTableProps = {
   feedback: FeedbackWithRestaurant[]
@@ -26,7 +27,7 @@ export default function FeedbackTable({ feedback, initialPage, pageSize, totalFe
     setFilteredFeedback(filtered)
     setTotalPages(Math.ceil(totalFeedback / pageSize))
 
-    // Calculate average rating
+    // Calcular calificación promedio
     const totalRating = filtered.reduce((sum, item) => sum + item.rating, 0)
     setAverageRating(filtered.length > 0 ? totalRating / filtered.length : 0)
   }, [feedback, restaurantID, pageSize, totalFeedback])
@@ -45,10 +46,29 @@ export default function FeedbackTable({ feedback, initialPage, pageSize, totalFe
     return comment.length > maxLength ? `${comment.substring(0, maxLength)}...` : comment
   }
 
+  const renderStars = (rating: number) => (
+    <div className="flex">
+      {[1, 2, 3, 4, 5].map((star) => (
+        <Star
+          key={star}
+          className={`w-5 h-5 ${star <= rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`}
+        />
+      ))}
+    </div>
+  );
+
   return (
     <div className="px-4 sm:px-6 lg:px-8 mt-12">
       <div className="mb-6 text-center">
-        <p className="text-2xl font-bold text-slate-800">
+        <div className="flex justify-center items-center space-x-2 mb-4">
+          {[1, 2, 3, 4, 5].map((star) => (
+            <Star
+              key={star}
+              className={`w-8 h-8 ${star <= Math.round(averageRating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`}
+            />
+          ))}
+        </div>
+        <p className="text-2xl mb-4 font-bold text-slate-800">
           Promedio de Calificación: {averageRating.toFixed(2)} / 5
         </p>
         <p className="text-lg text-slate-600">
@@ -69,10 +89,10 @@ export default function FeedbackTable({ feedback, initialPage, pageSize, totalFe
                       Calificación
                     </th>
                     <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                      Fecha
+                      Comentario
                     </th>
                     <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                      Comentario
+                      Fecha
                     </th>
                     <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">
                       Acciones
@@ -86,13 +106,13 @@ export default function FeedbackTable({ feedback, initialPage, pageSize, totalFe
                         {item.id}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {item.rating} / 5
+                        {renderStars(item.rating)}
+                      </td>
+                      <td className="px-3 py-4 text-sm text-gray-500 max-w-xs truncate">
+                        {truncateComment(item.comment, 60)}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                         {formatDate(item.createdAt.toString())}
-                      </td>
-                      <td className="px-3 py-4 text-sm text-gray-500 max-w-xs truncate">
-                        {truncateComment(item.comment, 50)}
                       </td>
                       <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                         <Link
