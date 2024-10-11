@@ -9,10 +9,10 @@ export type OrderWithProducts = Order & {
   orderProducts: (OrderProducts & {
     product: Product;
   })[];
-  table: Table;  
+  table: Table;
 };
 
 export type DailyOrderWithProducts = DailyOrder & {
   orders: OrderWithProducts[];
-  table: Pick<Table, 'id' | 'name'>;
+  table: Table; 
 };

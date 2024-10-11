@@ -1,47 +1,50 @@
-import ProductSearchForm from "@/components/products/ProductSearchForm";
-import Heading from "@/components/ui/Heading";
-import { prisma } from "@/src/lib/prisma";
-import OrdersTable from "@/components/order/OrdersTable";
-import { UserButton } from "@/components/auth/user-button";
+import Heading from "@/components/ui/Heading"
+import { prisma } from "@/src/lib/prisma"
+import OrdersTable from "@/components/order/OrdersTable"
+import { UserButton } from "@/components/auth/user-button"
+import { DailyOrderWithProducts } from "@/src/types"
 
-async function ordersCount() {
-  return await prisma.order.count();
+async function dailyOrdersCount() {
+  return await prisma.dailyOrder.count()
 }
 
-async function getOrders() {
-  const orders = await prisma.order.findMany({
+async function getDailyOrders(): Promise<DailyOrderWithProducts[]> {
+  const dailyOrders = await prisma.dailyOrder.findMany({
     orderBy: {
       date: "desc"
     },
     include: {
-      orderProducts: {
+      orders: {
         include: {
-          product: true,
+          orderProducts: {
+            include: {
+              product: true,
+            },
+          },
+          table: true,
         },
       },
-      table: true, 
+      table: true,
     },
-  });
-  return orders;
+  })
+  return dailyOrders
 }
-
 
 export default async function OrdersHistoryPage({
   searchParams,
 }: {
-  searchParams: { page: string };
+  searchParams: { page: string }
 }) {
-  const page = +searchParams.page || 1;
-  const pageSize = 10;
+  const page = +searchParams.page || 1
+  const pageSize = 10
 
-  const ordersData = getOrders();
-  const totalOrdersData = ordersCount();
+  const dailyOrdersData = getDailyOrders()
+  const totalDailyOrdersData = dailyOrdersCount()
 
-  const [orders] = await Promise.all([
-    ordersData,
-    totalOrdersData,
-  ]);
-
+  const [dailyOrders, totalDailyOrders] = await Promise.all([
+    dailyOrdersData,
+    totalDailyOrdersData,
+  ])
 
   return (
     <>
@@ -49,16 +52,14 @@ export default async function OrdersHistoryPage({
         <UserButton />
       </div>
       <div className="text-center">
-        <Heading>Historial de Ordenes</Heading>
+        <Heading>Historial de Ordenes Diarias</Heading>
       </div>
-
 
       <div className="flex flex-col gap-5 lg:flex-row lg:justify-between">
- 
-
+        {/* Add any additional components or filters here if needed */}
       </div>
 
-      <OrdersTable orders={orders} initialPage={page} pageSize={pageSize} />
+      <OrdersTable dailyOrders={dailyOrders} initialPage={page} pageSize={pageSize} totalDailyOrders={totalDailyOrders} />
     </>
-  );
+  )
 }
