@@ -7,7 +7,7 @@ export const publicRoutes = [
     "/menu/:path*",
     "/auth/new-verification",
     "/mozo_virtual",
-    
+    "/api/:path*",
 ]
 
 /**
@@ -18,7 +18,7 @@ export const publicRoutes = [
 export const adminRoutes = [
     "/admin",
     "/admin/products",
-    "/admin/tables"
+    "/admin/tables",
 ]
 
 

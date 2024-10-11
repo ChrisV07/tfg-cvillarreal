@@ -28,6 +28,11 @@ export const OrderIdSchema = z.object({
     .refine((value) => value > 0, { message: "Hay Errores" }),
 });
 
+export const DailyOrderIdSchema = z.object({
+  dailyOrderId: z
+    .string()
+});
+
 export const SearchSchema = z.object({
   search: z
     .string()

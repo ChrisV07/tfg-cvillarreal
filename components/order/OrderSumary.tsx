@@ -1,62 +1,194 @@
 "use client";
+
 import { useStore } from "@/src/store";
 import ProductDetails from "./ProductDetails";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import { formatCurrency } from "@/src/utils";
 import { createOrder } from "@/actions/create-order-action";
 import { OrderSchema } from "@/src/schemas";
 import { toast } from "react-toastify";
 import { UserButton } from "../auth/user-button";
-import ScrollToBottom from "@/components/order/ScrollToBottom"
 import { useParams } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { requestBill } from "@/actions/request-bill-action";
+
+type PaymentMethod = "efectivo" | "transferencia" | "tarjeta";
 
 export default function OrderSummary() {
   const order = useStore((state) => state.order);
   const tableId = useStore((state) => state.tableId);
-  const setTableId = useStore((state) => state.setTableId);
+  const dailyOrderTotal = useStore((state) => state.dailyOrderTotal);
+  const setDailyOrderTotal = useStore((state) => state.setDailyOrderTotal);
   const clearOrder = useStore((state) => state.clearOrder);
+  const [isBillRequested, setIsBillRequested] = useState(false);
+  const [isPolling, setIsPolling] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("efectivo");
+  const [cashAmount, setCashAmount] = useState<string>("");
+  const [showPaymentOptions, setShowPaymentOptions] = useState(false);
+  const [dailyOrderId, setDailyOrderId] = useState<string>("");
+
   const total = useMemo(
     () => order.reduce((total, item) => total + item.price * item.quantity, 0),
     [order]
   );
 
-  const params = useParams<{restaurant: string}>();
+  const params = useParams<{ restaurant: string }>();
   const { data: session } = useSession();
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const paramTableId = urlParams.get("table");
     if (paramTableId) {
-      setTableId(paramTableId);
+      useStore.getState().setTableId(paramTableId);
     }
-  }, [setTableId]);
+  }, []);
 
-  const handleCreateOrder = async (formData: FormData) => {
+  const fetchDailyOrderTotal = useCallback(async () => {
+    if (tableId) {
+      try {
+        //console.log('Fetching daily order total for tableId:', tableId);
+        const response = await fetch(`/api/daily-order-total?tableId=${tableId}`);
+        const data = await response.json();
+        //console.log('Daily order total response:', data);
+        //console.log("Response status:", response.status);
+        
+        if (data.total !== undefined) {
+          setDailyOrderTotal(data.total);
+        }
+        
+        setIsBillRequested(data.isBillRequested || false);
+        setDailyOrderId(data.dailyOrderId || "");
+        return data.isBillRequested;
+      } catch (error) {
+        console.error("Error fetching daily order total error:", error);
+      }
+    }
+    return false;
+  }, [tableId, setDailyOrderTotal]);
+  
+
+  useEffect(() => {
+    fetchDailyOrderTotal();
+  }, [fetchDailyOrderTotal]);
+
+  const resetState = useCallback(() => {
+    setIsBillRequested(false);
+    setIsPolling(false);
+    setShowPaymentOptions(false);
+    clearOrder();
+    fetchDailyOrderTotal();
+  }, [clearOrder, fetchDailyOrderTotal]);
+
+  useEffect(() => {
+    let intervalId: NodeJS.Timeout;
+  
+    if (isPolling) {
+      //console.log('Starting polling for bill status...');
+      intervalId = setInterval(async () => {
+        const billStillRequested = await fetchDailyOrderTotal();
+        //console.log('Polling result, isBillRequested:', billStillRequested);
+        if (!billStillRequested) {
+          resetState();
+          toast.success(
+            "La cuenta ha sido pagada. Puede realizar nuevos pedidos.",
+            { theme: "dark" }
+          );
+        }
+      }, 5000);
+    }
+  
+    return () => {
+      if (intervalId) {
+        //console.log('Stopping polling for bill status.');
+        clearInterval(intervalId);
+      }
+    };
+  }, [isPolling, fetchDailyOrderTotal, resetState]);
+
+  const handleCreateOrder = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+  
+    if (isBillRequested) {
+      toast.error(
+        "La cuenta ha sido solicitada. No se pueden crear nuevas órdenes.",
+        { theme: "dark" }
+      );
+      return;
+    }
+  
+    const formData = new FormData(event.currentTarget);
     const data = {
       name: session?.user?.name || formData.get("name"),
       total,
       order,
       tableId: tableId,
-      restaurantID: params.restaurant 
+      restaurantID: params.restaurant,
     };
-
+  
+    //console.log('Order data being sent:', data);
+  
     const result = OrderSchema.safeParse(data);
     if (!result.success) {
+      console.error('Order validation failed:', result.error);
       result.error.issues.forEach((issue) => {
         toast.error(issue.message, { theme: "dark" });
       });
       return;
     }
-
+  
     const response = await createOrder(data);
-    if (response?.errors) {
-      response.errors.forEach((issue) => {
-        toast.error(issue.message, { theme: "dark" });
-      });
+    //console.log('Order creation response:', response);
+  
+    if (response?.error) {
+      toast.error(response.error, { theme: "dark" });
+    } else if (response?.success) {
+      toast.success("Pedido Realizado Correctamente", { theme: "dark" });
+      clearOrder();
+      
+      if (response.dailyOrderTotal !== undefined) {
+        setDailyOrderTotal(response.dailyOrderTotal);
+      } else {
+        fetchDailyOrderTotal();
+      }
     }
-    toast.success("Pedido Realizado Correctamente", { theme: "dark" });
-    clearOrder();
+  };
+
+  const handleRequestBill = async () => {
+    setShowPaymentOptions(true);
+    setCashAmount(""); // Reset cash amount to empty string
+  };
+
+  const handleConfirmBillRequest = async () => {
+    if (paymentMethod === "efectivo") {
+      const cashAmountValue = parseFloat(cashAmount);
+      if (isNaN(cashAmountValue) || cashAmountValue < dailyOrderTotal) {
+        toast.error(
+          `El monto ingresado (${formatCurrency(cashAmountValue)}) es insuficiente. El total es ${formatCurrency(dailyOrderTotal)}. Por favor, ingrese un monto mayor o igual al total.`,
+          { theme: "dark" }
+        );
+        return;
+      }
+    }
+  
+    //console.log('Requesting bill with payment method:', paymentMethod, 'and cash amount:', cashAmount);
+  
+    const response = await requestBill(
+      tableId,
+      paymentMethod,
+      paymentMethod === "efectivo" ? parseFloat(cashAmount) : undefined
+    );
+  
+    //console.log('Bill request response:', response);
+  
+    if (response.error) {
+      toast.error(response.error, { theme: "dark" });
+    } else {
+      toast.success("Cuenta solicitada correctamente", { theme: "dark" });
+      setIsBillRequested(true);
+      setIsPolling(true);
+      setShowPaymentOptions(false);
+      await fetchDailyOrderTotal();
+    }
   };
 
   return (
@@ -65,7 +197,7 @@ export default function OrderSummary() {
       <h1 className="text-4xl text-center font-black">Mi Pedido</h1>
 
       {order.length === 0 ? (
-        <p className="text-center my-10"> El pedido está vacio</p>
+        <p className="text-center my-10">El pedido está vacío</p>
       ) : (
         <div className="mt-5">
           {order.map((item) => (
@@ -77,12 +209,14 @@ export default function OrderSummary() {
             <span className="font-bold">{formatCurrency(total)}</span>
           </p>
 
-          <form className="w-full mt-10 space-y-5" action={handleCreateOrder}>
+          <form className="w-full mt-10 space-y-5" onSubmit={handleCreateOrder}>
             {session?.user ? (
               <h2 className="text-xl font-semibold text-center">
-                Orden a Nombre de: 
+                Orden a Nombre de:
                 <br />
-                <span className="font-normal capitalize">{session.user.name}</span>
+                <span className="font-normal capitalize">
+                  {session.user.name}
+                </span>
               </h2>
             ) : (
               <input
@@ -96,14 +230,70 @@ export default function OrderSummary() {
 
             <input
               type="submit"
-              className="py-2 rounded-xl uppercase text-white bg-black w-full text-center cursor-pointer"
+              className={`py-2 rounded-xl uppercase text-white bg-black hover:bg-slate-800 w-full text-center cursor-pointer ${
+                isBillRequested ? "opacity-50 cursor-not-allowed" : ""
+              }`}
               value="Confirmar Pedido"
+              disabled={isBillRequested}
             />
           </form>
         </div>
       )}
-      <div className="sm:hidden mt-5">
-        <ScrollToBottom itemCount={order.length} />
+
+      <div className="mt-8 border-t pt-4">
+      <p className="text-2xl text-center font-bold">
+              Total del Día: {formatCurrency(dailyOrderTotal)}
+            </p>
+        {!isBillRequested && !showPaymentOptions && dailyOrderTotal > 0 && (
+         
+           
+            <button
+              onClick={handleRequestBill}
+              className="mt-4 py-2 rounded-xl uppercase text-white bg-purple-800 hover:bg-purple-600 w-full text-center cursor-pointer"
+            >
+              Solicitar Cuenta
+            </button>
+
+        )}
+        {showPaymentOptions && (
+          <div className="mt-4 space-y-4">
+            <select
+              value={paymentMethod}
+              onChange={(e) =>
+                setPaymentMethod(e.target.value as PaymentMethod)
+              }
+              className="w-full p-2 border border-gray-300 rounded-md"
+              aria-label="Método de pago"
+            >
+              <option value="efectivo">Efectivo</option>
+              <option value="transferencia">Transferencia</option>
+              <option value="tarjeta">Tarjeta</option>
+            </select>
+            {paymentMethod === "efectivo" && (
+              <input
+                type="number"
+                value={cashAmount}
+                onChange={(e) => setCashAmount(e.target.value)}
+                placeholder="Monto en efectivo"
+                className="w-full p-2 border border-gray-300 rounded-md"
+                aria-label="Monto en efectivo"
+                step="0.01"
+                required
+              />
+            )}
+            <button
+              onClick={handleConfirmBillRequest}
+              className="py-2 rounded-xl uppercase text-white bg-green-600 hover:bg-green-700 w-full text-center cursor-pointer"
+            >
+              Confirmar Solicitud de Cuenta
+            </button>
+          </div>
+        )}
+        {isBillRequested && (
+          <p className="mt-4 text-center text-lg font-semibold text-emerald-600">
+            Cuenta solicitada. Por favor, espere a que un mesero la procese.
+          </p>
+        )}
       </div>
     </aside>
   );

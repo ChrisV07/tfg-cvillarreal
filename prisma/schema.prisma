@@ -16,6 +16,8 @@ model Restaurant {
   Table    Table[]
   Order    Order[]
   User     User[]
+
+  DailyOrder DailyOrder[]
 }
 
 model Category {
@@ -45,34 +47,62 @@ model Product {
 }
 
 model Table {
-  id           String     @id @default(cuid())
+  id           String       @id @default(cuid())
   name         String
   ubication    String
   qr           String
   orders       Order[]
   restaurantID String
-  restaurant   Restaurant @relation(fields: [restaurantID], references: [id])
+  restaurant   Restaurant   @relation(fields: [restaurantID], references: [id])
+  DailyOrder   DailyOrder[]
 
   @@index([restaurantID]) // Índice para restaurantID
 }
 
-model Order {
-  id            Int             @id @default(autoincrement())
-  name          String
-  total         Float
-  date          DateTime        @default(now())
-  cooked        Boolean         @default(false)
-  orderCookedAt  DateTime?
-  delivered     Boolean         @default(false)
-  orderDeliveredAt  DateTime?
-  orderProducts OrderProducts[]
-  table         Table           @relation(fields: [tableId], references: [id])
-  tableId       String
-  restaurantID  String
-  restaurant    Restaurant      @relation(fields: [restaurantID], references: [id])
+enum PaymentMethod {
+  efectivo
+  transferencia
+  tarjeta
+}
+
+model DailyOrder {
+  id              String        @id @default(cuid())
+  date            DateTime      @default(now())
+  total           Float
+  orders          Order[]
+  table           Table         @relation(fields: [tableId], references: [id])
+  tableId         String
+  restaurantID    String
+  restaurant      Restaurant    @relation(fields: [restaurantID], references: [id])
+  isClosed        Boolean       @default(false)
+  isBillRequested Boolean       @default(false)
+  paymentMethod   PaymentMethod? 
+  payWith         Float?
 
   @@index([tableId])
-  @@index([restaurantID]) // Índice para restaurantID
+  @@index([restaurantID])
+}
+
+model Order {
+  id               Int             @id @default(autoincrement())
+  name             String
+  total            Float
+  date             DateTime        @default(now())
+  cooked           Boolean         @default(false)
+  orderCookedAt    DateTime?
+  delivered        Boolean         @default(false)
+  orderDeliveredAt DateTime?
+  orderProducts    OrderProducts[]
+  table            Table           @relation(fields: [tableId], references: [id])
+  tableId          String
+  restaurantID     String
+  restaurant       Restaurant      @relation(fields: [restaurantID], references: [id])
+  dailyOrder       DailyOrder      @relation(fields: [dailyOrderId], references: [id])
+  dailyOrderId     String
+
+  @@index([tableId])
+  @@index([restaurantID])
+  @@index([dailyOrderId])
 }
 
 model OrderProducts {
@@ -95,7 +125,6 @@ enum UserRole {
   CLIENT_USER
 }
 
-
 model User {
   id                    String                 @id @default(cuid())
   name                  String?
@@ -108,7 +137,7 @@ model User {
   isTwoFactorEnabled    Boolean                @default(false)
   twoFactorConfirmation TwoFactorConfirmation?
   restaurantID          String?
-  restaurant            Restaurant?             @relation(fields: [restaurantID], references: [id])
+  restaurant            Restaurant?            @relation(fields: [restaurantID], references: [id])
 
   @@index([restaurantID]) // Índice para restaurantID
 }
