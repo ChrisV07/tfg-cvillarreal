@@ -18,7 +18,7 @@ export async function createTable(data:unknown) {
         const createdTable = await prisma.table.create({
             data: result.data,
         });
-    const qrContent = `http://localhost:3000/menu/${createdTable.restaurantID}/cafe?table=${createdTable.id}`
+    const qrContent = `https://tesisfinalgradocvillarreal.vercel.app/${createdTable.restaurantID}/cafe?table=${createdTable.id}`
     const qrFileName =  `public/qr_tables/qr_${createdTable.name}_${createdTable.ubication}.jpg`
     await generateQR(qrContent, qrFileName)
     
