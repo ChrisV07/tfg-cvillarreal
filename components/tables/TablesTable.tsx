@@ -96,7 +96,7 @@ export default function TablesTable({ tables, initialPage, pageSize }: TablesTab
                   No existen Mesas.
                 </p>
                 <p className="text-gray-400 text-lg mb-40 text-center">
-                  Crea una presionando en "Crear Mesa"
+                  Crea una presionando en &quot;Crear Mesa&quot;
                 </p>
               </>
             )}
