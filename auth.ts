@@ -1,4 +1,4 @@
-import NextAuth, { DefaultSession } from "next-auth"
+import NextAuth from "next-auth"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 
 import { getUserByID } from "@/data/user"
@@ -28,10 +28,7 @@ export const {
     },
     callbacks: {
         async signIn({ user, account}) {
-            console.log({
-                user, 
-                account,
-            })
+           
             //Allow Oauth whitout email verification
             if (account?.provider !== 'credentials') return true;
 

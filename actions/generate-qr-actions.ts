@@ -6,7 +6,6 @@ export async function generateQR(qrContent: string, qrFileName: string){
         await qrCode.toFile(qrFileName, qrContent)
         return qrFileName
     } catch (error) {
-        console.log(error);
         
     }
 }

@@ -18,7 +18,9 @@ export default function ProductCard({ product }: ProductCardProps) {
         width={400}
         height={500}
         className="rounded-t-xl"
-        quality={85}
+        quality={100}
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        priority
       />
 
       <div className="p-5 flex flex-col justify-between flex-1">

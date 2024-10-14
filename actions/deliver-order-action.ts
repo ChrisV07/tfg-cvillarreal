@@ -27,7 +27,6 @@ export async function deliverOrder(formData: FormData) {
             revalidatePath('/orders/readyorders')
 
         } catch (error) {
-            console.log(error);
             
         }
     }

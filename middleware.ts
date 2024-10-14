@@ -15,7 +15,6 @@ export default auth((req) => {
   
   const user = auth?.user;
 
-  console.log("\n user in middleware:>> ", user?.role);
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);

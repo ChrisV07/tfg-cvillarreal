@@ -1,12 +1,10 @@
 "use server";
 
 import * as z from "zod";
-
 import { signIn } from "@/auth";
 import { LoginSchema } from "@/src/schemas";
 import { getUserByEmail } from "@/data/user";
 import { sendVerificationEmail, sendTwoFactorTokenEmail } from "@/src/lib/mail";
-import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";
 import {
   generateVerificationToken,
@@ -93,15 +91,16 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
     await signIn("credentials", {
       email,
       password,
-      redirectTo: DEFAULT_LOGIN_REDIRECT,
+
     });
+    return { success: "Logged in successfully" };
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":
           return { error: "Email y/o contraseña Invalidos!" };
         default: {
-          error: "Algo salió mal!";
+          return { error: "Algo salió mal!" };
         }
       }
     }

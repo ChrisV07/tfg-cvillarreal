@@ -27,6 +27,8 @@ const restaurant = restaurants.find ((restaurant) => restaurant.id == restaurant
             alt={`QR de ${table.name}`}
             width={256}
             height={256}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+
           />
           <p>
             {table.name} | {table.ubication}

@@ -13,9 +13,20 @@ import { LogOutButton } from "./logout-button";
 import Image from "next/image";
 
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 export const UserButton = () => {
+  
   const user = useCurrentUser();
+
+
+  const handleLoginClick = () => {
+    // Almacena la URL actual en localStorage
+    const currentUrl = window.location.href;
+    localStorage.setItem("redirectUrl", currentUrl);
+  };
+
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -26,21 +37,21 @@ export const UserButton = () => {
           </AvatarFallback>
         </Avatar>
         <DropdownMenuContent className="w-40" align="end">
-            {user ? (<LogOutButton>
-            <DropdownMenuItem>
-                <Image src='/LogOut.svg' width={40} height={40} alt="signout"/>
+          {user ? (
+            <LogOutButton>
+              <DropdownMenuItem>
+                <Image src='/LogOut.svg' width={40} height={40} alt="signout" />
                 Cerrar Sesión
-            </DropdownMenuItem>
-          </LogOutButton>) : (
-            <Link href={'/auth/login'}>
-            <DropdownMenuItem>
-                
-                <Image src='/LogOut.svg' width={40} height={40} alt="signout"/>
+              </DropdownMenuItem>
+            </LogOutButton>
+          ) : (
+            <Link href={'/auth/login'} onClick={handleLoginClick}>
+              <DropdownMenuItem>
+                <Image src='/LogOut.svg' width={40} height={40} alt="signin" />
                 Iniciar Sesión
-            </DropdownMenuItem>
-                </Link>
-        ) }
-          
+              </DropdownMenuItem>
+            </Link>
+          )}
         </DropdownMenuContent>
       </DropdownMenuTrigger>
     </DropdownMenu>

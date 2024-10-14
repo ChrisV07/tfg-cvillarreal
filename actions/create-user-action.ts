@@ -1,6 +1,6 @@
 "use server";
 import * as z from 'zod'
-import { CreateUserSchema, RegisterSchema } from '@/src/schemas';
+import { CreateUserSchema } from '@/src/schemas';
 import { hash } from 'bcryptjs';
 import { prisma } from '@/src/lib/prisma';
 import { getUserByEmail } from '@/data/user';

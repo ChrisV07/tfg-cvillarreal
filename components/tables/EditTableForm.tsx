@@ -23,7 +23,6 @@ export default function EditTableForm({children} : {children : React.ReactNode})
             restaurantID,
         };
 
-        console.log('Form data:', data); // Depuración
 
         const result = TableSchema.safeParse(data);
 
