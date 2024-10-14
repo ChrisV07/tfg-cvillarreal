@@ -1,7 +1,8 @@
-import { deliverOrder } from "@/actions/deliver-order-action";
+
 import { payBill } from "@/actions/pay-bill-action";
 import { DailyOrderWithProducts } from "@/src/types";
 import { formatCurrency } from "@/src/utils";
+import { useState } from "react";
 
 type RequestedBillOrderProps = {
   dailyOrder: DailyOrderWithProducts;
@@ -10,7 +11,24 @@ type RequestedBillOrderProps = {
 export default function RequestedBillOrder({
   dailyOrder,
 }: RequestedBillOrderProps) {
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const clientName = dailyOrder.orders[0]?.name || "Unknown";
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); // Evita el comportamiento predeterminado del formulario
+
+    const formData = new FormData(event.currentTarget); // Obtiene los datos del formulario
+    const result = await payBill(formData); // Llama a la función payBill
+
+    if (result.success) {
+      // Maneja el éxito (puedes redirigir, mostrar un mensaje, etc.)
+      console.log("Pago exitoso:", result.dailyOrder);
+      // Puedes agregar lógica para redirigir o actualizar el estado
+    } else {
+      // Maneja el error
+      setErrorMessage(result.error!);
+    }
+  };
 
   return (
     <div className="bg-white shadow rounded-lg flex flex-col h-full">
@@ -60,22 +78,26 @@ export default function RequestedBillOrder({
         <div className="border-t pt-4">
           <p className="text-2xl font-bold text-slate-600 text-left mt-4">
             Total: {formatCurrency(dailyOrder.total)}
-            <p className="text-2xl font-bold text-slate-600 capitalize  text-left mt-4">
-              Método de Pago:{" "}
-              <span className="capitalize">{dailyOrder.paymentMethod}</span>
-            </p>
-            {dailyOrder.paymentMethod == "efectivo" && (
-              <p className="text-2xl font-bold text-slate-600 capitalize  text-left mt-4">
-                Paga con:{" "}
-                <span className="capitalize">
-                  {formatCurrency(dailyOrder.payWith!)}
-                </span>
-              </p>
-            )}
           </p>
+          <p className="text-2xl font-bold text-slate-600 capitalize text-left mt-4">
+            Método de Pago:{" "}
+            <span className="capitalize">{dailyOrder.paymentMethod}</span>
+          </p>
+          {dailyOrder.paymentMethod === "efectivo" && (
+            <p className="text-2xl font-bold text-slate-600 capitalize text-left mt-4">
+              Paga con:{" "}
+              <span className="capitalize">
+                {formatCurrency(dailyOrder.payWith!)}
+              </span>
+            </p>
+          )}
         </div>
 
-        <form action={payBill}>
+        {errorMessage && (
+          <p className="text-red-600 text-center">{errorMessage}</p>
+        )}
+
+        <form onSubmit={handleSubmit}>
           <input type="hidden" value={dailyOrder.id} name="dailyOrderId" />
           <input
             type="submit"

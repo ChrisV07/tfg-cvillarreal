@@ -28,7 +28,10 @@ export const {
     },
     callbacks: {
         async signIn({ user, account}) {
-           
+            console.log({
+                user, 
+                account,
+            })
             //Allow Oauth whitout email verification
             if (account?.provider !== 'credentials') return true;
 
@@ -56,10 +59,10 @@ export const {
             }
 
             if (token.role && session.user){
-                session.user.role = token.role 
+                session.user.role = token.role  as "SUPER_ADMIN" | "RESTO_ADMIN" | "KITCHEN_ORDERS" | "READY_ORDERS" | "CLIENT_USER";
             }
             if (token.restaurantID && session.user) {
-                session.user.restaurantID = token.restaurantID; 
+                session.user.restaurantID = token.restaurantID as string
             }
 
             return session
