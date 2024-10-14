@@ -30,16 +30,13 @@ export default function OrderPages() {
   useEffect(() => {
     const fetchRestaurant = async () => {
       if (!user?.restaurantID) {
-        console.log("No hay restaurantID definido");
         return;
       }
 
       try {
         const fetchedRestaurant = await getRestaurant(user.restaurantID);
-        console.log("Restaurante obtenido:", fetchedRestaurant);
         setRestaurant(fetchedRestaurant);
       } catch (err) {
-        console.log("Error al obtener el restaurante:", err);
       }
     };
 

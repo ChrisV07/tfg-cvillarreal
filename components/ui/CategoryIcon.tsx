@@ -20,7 +20,8 @@ export default function CategoryIcon({ category, onClick }: CategoryIconProps) {
       onClick={onClick} // Añadir la función onClick aquí
     >
       <div className="w-16 h-16 relative">
-        <Image src={`/icon_${category.slug}.svg`} alt={`imagen categoria ${category.name}`} fill />
+        <Image src={`/icon_${category.slug}.svg`} alt={`imagen categoria ${category.name}`} fill    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        />
       </div>
 
       <Link 

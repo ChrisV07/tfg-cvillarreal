@@ -34,9 +34,6 @@ export default function LogoSideBar() {
     fetchData();
   }, [restaurantId]);
 
-  console.log('image path', imagePath);
-  console.log('restaurantId', restaurantId);
-  console.log('restaurant', restaurant);
 
   return (
     <>

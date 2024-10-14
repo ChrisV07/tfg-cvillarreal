@@ -26,7 +26,7 @@ export default async function OrderPage({ params }: { params: { category: string
         <Heading>Elige y personaliza tu pedido a continuación</Heading>
         <div className="flex justify-center lg:justify-end w-full lg:w-auto">
           <Link
-            href={"/mozo_virtual"}
+            href={`/menu/${params.restaurant}/mozo_virtual`} // Ajuste de la ruta
             className="bg-black rounded-xl text-xl px-10 py-3 text-white text-center font-bold cursor-pointer hover:bg-slate-800"
           >
             Mozo Virtual

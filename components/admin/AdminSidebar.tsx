@@ -8,68 +8,68 @@ import { getRestaurant } from "@/actions/get-restaurant-action"; // Importa la f
 import { Restaurant } from "@prisma/client";
 import { getImagePath, getRestaurantImagePath } from "@/src/utils"; // Asegúrate de que esta función esté importada
 
-const adminNavigation = [
-  {
-    url: "/admin/products",
-    text: "Productos",
-    blank: false,
-    image: "/Productos.svg",
-  },
-  {
-    url: "/admin/tables",
-    text: "Administrar Mesas",
-    blank: false,
-    image: "/Mesas.svg",
-  },
-  {
-    url: "/orders/kitchenorders",
-    text: "Ordenes Cocina",
-    blank: true,
-    image: "/OrdersKitchen.svg",
-  },
-  {
-    url: "/orders/readyorders",
-    text: "Ordenes Listas",
-    blank: true,
-    image: "/OrdersReady.svg",
-  },
-  {
-    url: "/admin/orders_history",
-    text: "Historial de Ordenes",
-    blank: true,
-    image: "/OrdersHistory.svg",
-  },
-  {
-    url: "/admin/feedback_history",
-    text: "Feedback",
-    blank: false,
-    image: "/Feedback.svg",
-  },
-  {
-    url: "/menu/cafe",
-    text: "Ver Menú",
-    blank: true,
-    image: "/Menu.svg",
-  },
-];
+
+
 
 export default function AdminSidebar() {
   const user = useCurrentUser();
   const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
 
+  const adminNavigation = [
+    {
+      url: "/admin/products",
+      text: "Productos",
+      blank: false,
+      image: "/Productos.svg",
+    },
+    {
+      url: "/admin/tables",
+      text: "Administrar Mesas",
+      blank: false,
+      image: "/Mesas.svg",
+    },
+    {
+      url: "/orders/kitchenorders",
+      text: "Ordenes Cocina",
+      blank: true,
+      image: "/OrdersKitchen.svg",
+    },
+    {
+      url: "/orders/readyorders",
+      text: "Ordenes Listas",
+      blank: true,
+      image: "/OrdersReady.svg",
+    },
+    {
+      url: "/admin/orders_history",
+      text: "Historial de Ordenes",
+      blank: true,
+      image: "/OrdersHistory.svg",
+    },
+    {
+      url: "/admin/feedback_history",
+      text: "Feedback",
+      blank: false,
+      image: "/Feedback.svg",
+    },
+    {
+      url: `/menu/${user?.restaurantID}/cafe`, // Modificado aquí
+      text: "Ver Menú",
+      blank: true,
+      image: "/Menu.svg",
+    },
+  ];
+
   useEffect(() => {
     const fetchRestaurant = async () => {
       if (!user?.restaurantID) {
-        console.log("No hay restaurantID definido");
         return;
       }
 
       try {
         const fetchedRestaurant = await getRestaurant(user.restaurantID);
-        console.log("Restaurante obtenido:", fetchedRestaurant);
         setRestaurant(fetchedRestaurant);
       } catch (err) {
-        console.log("Error al obtener el restaurante:", err);
       }
     };
 
@@ -82,7 +82,14 @@ export default function AdminSidebar() {
   return (
     <>
       <div className="print:hidden">
-        <Logo imagePath={getRestaurantImagePath(imagePath)!} />
+      <>
+      {imagePath ? (
+                <Logo imagePath={getRestaurantImagePath(imagePath)!} />
+
+      ) : (
+        <p>Cargando imagen...</p> 
+      )}
+    </>
         <div className="space-y-2">
           <p className="mt-8 uppercase font-bold text-sm text-gray-600 text-center">
             Navegación

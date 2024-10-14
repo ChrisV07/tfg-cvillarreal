@@ -44,7 +44,8 @@ export default async function SuperAdminSidebar({restaurantID}: SuperAdminSideba
           </nav>
           <div className="flex items-center gap-4 w-full p-3 pt-2">
             <div className="w-16 h-16 relative">
-              <Image src="/LogOut.svg" alt="imagen categoria" fill />
+              <Image src="/LogOut.svg" alt="imagen categoria" fill   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+ />
             </div>
             <div>
               <form

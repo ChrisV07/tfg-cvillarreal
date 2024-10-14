@@ -19,7 +19,6 @@ export default function FeedbackModal({ isOpen, onClose, restaurantID }: Feedbac
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
-    console.log('FeedbackModal received restaurantID:', restaurantID)
   }, [restaurantID])
 
   const handleSubmit = async () => {
@@ -37,7 +36,6 @@ export default function FeedbackModal({ isOpen, onClose, restaurantID }: Feedbac
     setIsSubmitting(true)
 
     try {
-      console.log('Submitting feedback with data:', { restaurantID, rating, comment })
       const response = await fetch('/api/feedback', {
         method: 'POST',
         headers: {
@@ -51,7 +49,6 @@ export default function FeedbackModal({ isOpen, onClose, restaurantID }: Feedbac
       })
 
       const data = await response.json()
-      console.log('Feedback submission response:', data)
 
       if (!response.ok) {
         throw new Error(data.error || 'Error al enviar el feedback')

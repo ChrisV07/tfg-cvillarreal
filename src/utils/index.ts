@@ -6,7 +6,6 @@ export function getRestaurantImagePath(imagePath: string){
         return imagePath
     } else {
         // Remove any leading slashes and ensure .png extension
-       console.log('no hay imagen');
        
     }
 }
@@ -36,3 +35,5 @@ export const formatDate = (dateString: string) => {
       year: 'numeric',
     });
 };
+
+
