@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { useRouter, useSearchParams, useParams } from 'next/navigation'
 import CategoryIcon from "../ui/CategoryIcon"
 import LogoSideBar from "../ui/LogoSideBar"
@@ -33,6 +33,8 @@ export default function OrderSidebar() {
   }
 
   return (
+    <Suspense>
+    <>
     <aside className="md:w-72 md:h-screen bg-white">
       <div className="p-5 md:p-0">
         <div className="bg-white">
@@ -65,5 +67,7 @@ export default function OrderSidebar() {
         </nav>
       </div>
     </aside>
+    </>
+    </Suspense>
   )
 }

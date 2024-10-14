@@ -3,6 +3,7 @@ import Heading from "@/components/ui/Heading";
 import { prisma } from "@/src/lib/prisma";
 import Link from "next/link";
 import RestaurantTable from "@/components/restaurants/RestaurantsTable";
+import { Suspense } from "react";
 
 async function restaurantsCount() {
   return await prisma.restaurant.count();
@@ -32,7 +33,8 @@ export default async function RestaurantPage({
   const totalPages = Math.ceil(totalRestaurants / pageSize);
 
   return (
-    <>
+    <Suspense fallback={<div>Cargando...</div>}>
+      <>
       <div className="text-center">
         <Heading>Administrar Restaurantes</Heading>
       </div>
@@ -49,6 +51,7 @@ export default async function RestaurantPage({
       </div>
 
       <RestaurantTable restaurants={restaurants} />
-    </>
+      </>
+      </Suspense>
   );
 }
