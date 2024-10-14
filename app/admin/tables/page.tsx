@@ -3,6 +3,7 @@ import TablesTable from "@/components/tables/TablesTable";
 import Heading from "@/components/ui/Heading";
 import { prisma } from "@/src/lib/prisma";
 import Link from "next/link";
+import { Suspense } from "react";
 
 async function tableCount() {
   return await prisma.table.count();
@@ -28,7 +29,8 @@ export default async function TablesPage({
 
 
   return (
-    <>
+    <Suspense fallback={<div>Cargando...</div>}>
+      <>
     <div className="flex justify-end">
         <UserButton />
       </div>
@@ -53,5 +55,6 @@ export default async function TablesPage({
 
       <TablesTable tables={tables} initialPage={page} pageSize={pageSize} />
     </>
+    </Suspense>
   );
 }

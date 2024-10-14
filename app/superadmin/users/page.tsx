@@ -3,6 +3,7 @@ import Heading from "@/components/ui/Heading";
 import { prisma } from "@/src/lib/prisma";
 import UsersTable from "@/components/users/UsersTable";
 import Link from "next/link";
+import { Suspense } from "react";
 
 async function usersCount() {
   return await prisma.user.count();
@@ -38,6 +39,7 @@ export default async function UsersPage({
   const totalPages = Math.ceil(totalUsers / pageSize);
 
   return (
+    <Suspense>
     <>
       <div className="text-center">
         <Heading>Administrar Usuarios</Heading>
@@ -54,6 +56,7 @@ export default async function UsersPage({
       </div>
 
       <UsersTable users={users} />
-    </>
+      </>
+      </Suspense>
   );
 }

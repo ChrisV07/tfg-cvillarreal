@@ -3,7 +3,7 @@ import RestaurantsTable from "@/components/restaurants/RestaurantsTable";
 import Heading from "@/components/ui/Heading";
 import { prisma } from "@/src/lib/prisma";
 import Link from "next/link";
-import React from "react";
+import React, { Suspense } from "react";
 
 async function searchRestaurants(searchTerm: string) {
   const products = await prisma.restaurant.findMany({
@@ -25,6 +25,7 @@ export default async function SearchPage({
   const restaurants = await searchRestaurants(searchParams.search);
 
   return (
+    <Suspense>
     <>
       <Heading>Resultados de Búsqueda: {searchParams.search}</Heading>
 
@@ -40,5 +41,6 @@ export default async function SearchPage({
         </p>
       )}
     </>
+    </Suspense>
   );
 }

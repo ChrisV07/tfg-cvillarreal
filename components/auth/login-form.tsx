@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/ui/form-error";
 import { FormSuccess } from "@/components/ui/FormSuccess";
 import { login } from "@/actions/login";
-import { useState, useTransition, useEffect } from "react";
+import { useState, useTransition, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -68,6 +68,8 @@ export default function LoginForm() {
     });
   };
   return (
+    <Suspense>
+    <>
     <CardWrapper
       headerTitle="Iniciar Sesión"
       headerLabel="Comenza a Administrar tu Restaurante Iniciando Sesión en el siguiente formulario:"
@@ -155,5 +157,7 @@ export default function LoginForm() {
         </form>
       </Form>
     </CardWrapper>
+    </>
+    </Suspense>
   );
 }

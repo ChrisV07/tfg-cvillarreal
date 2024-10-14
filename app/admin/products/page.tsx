@@ -4,6 +4,7 @@ import { prisma } from "@/src/lib/prisma";
 import Link from "next/link";
 import ProductTable from "@/components/products/ProductsTable";
 import { UserButton } from "@/components/auth/user-button";
+import { Suspense } from "react";
 
 async function productCount() {
   return await prisma.product.count();
@@ -37,7 +38,8 @@ export default async function ProductsPage({
   ]);
 
   return (
-    <>
+    <Suspense fallback={<div>Cargando...</div>}>
+      <>
       <div className="flex justify-end">
         <UserButton />
       </div>
@@ -61,6 +63,7 @@ export default async function ProductsPage({
         initialPage={page}
         pageSize={pageSize}
       />
-    </>
+   </>
+    </Suspense>
   );
 }

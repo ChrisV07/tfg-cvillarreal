@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/ui/form-error";
 import { FormSuccess } from "@/components/ui/FormSuccess";
 import { newPassword } from "@/actions/new-password";
-import { useState, useTransition } from "react";
+import { Suspense, useState, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
 
 export default function NewPasswordForm() {
@@ -52,6 +52,8 @@ export default function NewPasswordForm() {
   };
 
   return (
+    <Suspense>
+    <>
     <CardWrapper
       headerTitle="Restablecer Contraseña"
       headerLabel="Ingresa Tu Nueva Contraseña"
@@ -109,5 +111,7 @@ export default function NewPasswordForm() {
         </form>
       </Form>
     </CardWrapper>
+    </>
+    </Suspense>
   );
 }

@@ -3,6 +3,7 @@ import { prisma } from "@/src/lib/prisma"
 import FeedbackTable from "@/components/feedback/FeedbackTable"
 import { UserButton } from "@/components/auth/user-button"
 import { FeedbackWithRestaurant } from "@/src/types"
+import { Suspense } from "react"
 
 async function feedbackCount() {
   return await prisma.feedback.count()
@@ -37,6 +38,8 @@ export default async function FeedbackHistoryPage({
   ])
 
   return (
+    <Suspense fallback={<div>Cargando...</div>}>
+      
     <>
       <div className="flex justify-end">
         <UserButton />
@@ -50,6 +53,7 @@ export default async function FeedbackHistoryPage({
       </div>
 
       <FeedbackTable feedback={feedback} initialPage={page} pageSize={pageSize} totalFeedback={totalFeedback} />
-    </>
+      </>
+      </Suspense>
   )
 }

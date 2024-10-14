@@ -3,7 +3,7 @@
 import { CardWrapper } from "@/components/auth/card-wrapper";
 import { BeatLoader } from "react-spinners";
 import { useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 import { newVerification } from "@/actions/new-verification";
 import { FormSuccess } from "../ui/FormSuccess";
 import { FormError } from "../ui/form-error";
@@ -38,6 +38,8 @@ export default function NewVerificationForm() {
   }, [onSubmit]);
 
   return (
+    <Suspense>
+    <>
     <CardWrapper
       headerTitle="📧 Verificación"
       headerLabel="Verificando tu correo electronico"
@@ -53,5 +55,7 @@ export default function NewVerificationForm() {
         )}
       </div>
     </CardWrapper>
+    </>
+    </Suspense>
   );
 }
