@@ -43,7 +43,7 @@ export default function LogoSideBar() {
       {imagePath ? (
         <Logo imagePath={imagePath} />
       ) : (
-        <p>Cargando imagen...</p> // O un mensaje de error
+        <p>Cargando imagen...</p> 
       )}
     </>
   );
