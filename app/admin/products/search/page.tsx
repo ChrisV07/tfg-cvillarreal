@@ -38,7 +38,7 @@ export default async function SearchPage({
         <ProductTable products={products} />
       ) : (
         <p className="text-center text-lg py-10">
-          No se encontraron resultados con el termino "{searchParams.search}"
+           No se encontraron resultados con el término &quot;{searchParams.search}&quot; {/* es el equivalente en eslint6 a "{searchParams.search}" */}
         </p>
       )}
     </>

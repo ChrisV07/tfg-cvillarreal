@@ -14,11 +14,11 @@ const restaurants = await prisma.restaurant.findMany();
 
       <>
         <div className="print:hidden">
-        <Heading>Exportar QR's</Heading>
+        <Heading>Exportar QR&apos;s</Heading>
 
         <div className="my-6 flex justify-between">
           <GoBackButton seccion="Administrar Mesas" />
-          <PrintButton text="QR's"/>
+          <PrintButton text="QR&apos;s"/>
 
         </div>
         </div>

@@ -100,7 +100,7 @@ export default function ProductTable({ products, initialPage = 1, pageSize = 10 
                   No existen productos.
                 </p>
                 <p className="text-gray-400 text-lg mb-40 text-center">
-                  Crea uno presionando en "Crear Producto"
+                  Crea uno presionando en &quot;Crear Producto&quot;
                 </p>
               </>
             )}

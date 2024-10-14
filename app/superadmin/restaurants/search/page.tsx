@@ -2,7 +2,6 @@ import RestaurantSearchForm from "@/components/restaurants/RestaurantSearchForm"
 import RestaurantsTable from "@/components/restaurants/RestaurantsTable";
 import Heading from "@/components/ui/Heading";
 import { prisma } from "@/src/lib/prisma";
-import Link from "next/link";
 import React from "react";
 
 async function searchRestaurants(searchTerm: string) {
@@ -36,7 +35,7 @@ export default async function SearchPage({
         <RestaurantsTable restaurants={restaurants} />
       ) : (
         <p className="text-center text-lg py-10">
-          No se encontraron resultados con el termino "{searchParams.search}"
+          No se encontraron resultados con el termino &quot;{searchParams.search}&quot;
         </p>
       )}
     </>
