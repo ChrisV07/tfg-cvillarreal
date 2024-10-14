@@ -1,3 +1,17 @@
+// src/utils.ts
+
+export function getRestaurantImagePath(imagePath: string){
+    const cloudinaryBaseUrl = 'https://res.cloudinary.com'
+    if(imagePath.startsWith(cloudinaryBaseUrl)){
+        return imagePath
+    } else {
+        // Remove any leading slashes and ensure .png extension
+       console.log('no hay imagen');
+       
+    }
+}
+
+// Keep other utility functions unchanged
 export function formatCurrency(amount: number) {
     return new Intl.NumberFormat('es-AR', {
         style: 'currency',
@@ -21,4 +35,4 @@ export const formatDate = (dateString: string) => {
       month: '2-digit',
       year: 'numeric',
     });
-  };
+};

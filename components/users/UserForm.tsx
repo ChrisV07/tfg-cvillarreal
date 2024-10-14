@@ -94,6 +94,9 @@ export default async function UserForm({ user, isRegister }: UserFormProps) {
             </option>
           ))}
         </select>
+    
+
+
       </div>
     </>
   );

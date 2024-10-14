@@ -1,6 +1,6 @@
 "use server";
 import * as z from 'zod'
-import { CreateUserSchema } from '@/src/schemas';
+import { CreateUserFromSuperAdminSchema } from '@/src/schemas';
 import { hash } from 'bcryptjs';
 import { prisma } from '@/src/lib/prisma';
 import { getUserByEmail } from '@/data/user';
@@ -8,8 +8,8 @@ import { generateVerificationToken } from '@/src/lib/tokens';
 import { sendVerificationEmail } from '@/src/lib/mail';
 
 
-export const createUser = async (values: z.infer<typeof CreateUserSchema>) => {
-    const validatedFields = CreateUserSchema.safeParse(values);
+export const createUserFromSuperAdmin = async (values: z.infer<typeof CreateUserFromSuperAdminSchema>) => {
+    const validatedFields = CreateUserFromSuperAdminSchema.safeParse(values);
 
     if (!validatedFields.success){
         return { error: "Los datos son invalidos!" };
@@ -24,13 +24,16 @@ export const createUser = async (values: z.infer<typeof CreateUserSchema>) => {
         return { error: "El Email ya se encuentra en uso!" };
     }
 
+    const emailVerified = new Date();
+
     await prisma.user.create({
         data: {
             name,
             email,
             password: hashedPassword,
             role,
-            restaurantID
+            restaurantID,
+            emailVerified,
         },
     });
 

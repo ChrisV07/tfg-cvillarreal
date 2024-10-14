@@ -1,10 +1,10 @@
 "use client";
 
-import { CreateUserSchema } from "@/src/schemas";
+import { CreateUserFromSuperAdminSchema } from "@/src/schemas";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from "next/navigation";
-import { createUser } from "@/actions/create-user-action";
+import { createUserFromSuperAdmin } from "@/actions/create-user-from-superadmin-admin-action";
 import { FormEvent } from "react";
 
 export default function NewUserForm({ children }: { children: React.ReactNode }) {
@@ -21,9 +21,11 @@ export default function NewUserForm({ children }: { children: React.ReactNode })
             password: formData.get('password') as string,
             confirmPassword: formData.get('confirmPassword') as string,
             restaurantID: formData.get('restaurantID') as string,
+
+            
         };
 
-        const result = CreateUserSchema.safeParse(data);
+        const result = CreateUserFromSuperAdminSchema.safeParse(data);
 
         if (!result.success) {
             result.error.issues.forEach(issue => {
@@ -32,7 +34,7 @@ export default function NewUserForm({ children }: { children: React.ReactNode })
             return;
         }
 
-        const response = await createUser(result.data);
+        const response = await createUserFromSuperAdmin(result.data);
         if (response?.error) {
             toast.error(response.error, { theme: 'dark' });
             return;

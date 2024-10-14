@@ -21,7 +21,8 @@ export default function ImageUpload({image}: {image: string | undefined}) {
         }} 
         uploadPreset="g4liolyc"
         options={{
-            maxFiles:1
+            maxFiles:1,
+            folder: "Products" // Especificar la carpeta 'restaurants'
         }}
     >
       {({open}) => (

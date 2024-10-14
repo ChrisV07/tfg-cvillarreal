@@ -8,8 +8,9 @@ datasource db {
 }
 
 model Restaurant {
-  id   String @id @default(cuid())
-  name String
+  id    String @id @default(cuid())
+  name  String
+  image String?
 
   Category Category[]
   Product  Product[]
