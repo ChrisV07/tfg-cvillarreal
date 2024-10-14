@@ -1,14 +1,36 @@
-import { prisma } from "@/src/lib/prisma";
-import CategoryIcon from "../ui/CategoryIcon";
-import LogoSideBar from "../ui/LogoSideBar";
+"use client";
 
-async function getCategories() {
-  return await prisma.category.findMany();
-}
+import { useEffect, useState } from 'react'
+import { useRouter, useSearchParams, useParams } from 'next/navigation'
+import CategoryIcon from "../ui/CategoryIcon"
+import LogoSideBar from "../ui/LogoSideBar"
+import { getCategories } from '@/actions/get-categories-action'
+import { Category } from '@prisma/client'
 
-export default async function OrderSidebar() {
-  const categories = await getCategories();
-  
+export default function OrderSidebar() {
+  const [categories, setCategories] = useState<Category[]>([])
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const params = useParams<{ restaurant: string }>()
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const fetchedCategories = await getCategories()
+        setCategories(fetchedCategories)
+      } catch (error) {
+        console.error("Error fetching categories:", error)
+      }
+    }
+
+    fetchCategories()
+  }, [])
+
+  const handleCategoryClick = (categorySlug: string) => {
+    const currentTableId = searchParams.get('table')
+    const newUrl = `/menu/${params.restaurant}/${categorySlug}${currentTableId ? `?table=${currentTableId}` : ''}`
+    router.push(newUrl)
+  }
 
   return (
     <aside className="md:w-72 md:h-screen bg-white">
@@ -23,17 +45,25 @@ export default async function OrderSidebar() {
             </summary>
             <nav className="mt-2 group-open:block hidden">
               {categories.map((category) => (
-                <CategoryIcon key={category.id} category={category} />
+                <CategoryIcon 
+                  key={category.id} 
+                  category={category} 
+                  onClick={() => handleCategoryClick(category.slug)}
+                />
               ))}
             </nav>
           </details>
         </div>
         <nav className="hidden sm:block mt-10 bg-white">
           {categories.map((category) => (
-            <CategoryIcon key={category.id} category={category} />
+            <CategoryIcon 
+              key={category.id} 
+              category={category} 
+              onClick={() => handleCategoryClick(category.slug)}
+            />
           ))}
         </nav>
       </div>
     </aside>
-  );
+  )
 }

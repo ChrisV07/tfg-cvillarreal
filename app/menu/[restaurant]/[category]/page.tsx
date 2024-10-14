@@ -1,7 +1,9 @@
+import StoreCurrentUrl from "@/components/auth/StoreCurrentUrl";
 import ProductCard from "@/components/products/ProductCard";
 import Heading from "@/components/ui/Heading";
 import { prisma } from "@/src/lib/prisma";
 import Link from "next/link";
+import { Suspense } from "react";
 
 async function getProducts(category: string, restaurantID: string) {
   const products = await prisma.product.findMany({
@@ -37,6 +39,9 @@ export default async function OrderPage({ params }: { params: { category: string
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
+
+        <StoreCurrentUrl />
+
     </div>
   );
 }

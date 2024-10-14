@@ -35,11 +35,13 @@ export default function OrderSummary() {
   )
 
   const params = useParams<{ restaurant: string }>()
+  
   const { data: session } = useSession()
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search)
-    const paramTableId = urlParams.get("table")
+
+    const paramTableId = urlParams.get("table") 
     if (paramTableId) {
       useStore.getState().setTableId(paramTableId)
     }

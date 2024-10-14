@@ -1,9 +1,8 @@
-import { useState, useEffect } from "react";
+
 import OrderSidebar from "@/components/order/OrderSidebar";
 import OrderSumary from "@/components/order/OrderSumary";
 import ToastNotification from "@/components/ui/ToastNotification";
-import { prisma } from "@/src/lib/prisma";
-import { Category } from "@prisma/client";
+
 import { SessionProvider } from "next-auth/react";
 
 

@@ -1,16 +1,22 @@
 "use client";
 
+import { useEffect } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { Button } from '@/components/ui/button';
-import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
 import { signIn } from 'next-auth/react';
 
 export const Social = () => {
   const onClick = (provider: "google") => {
+    // Almacena la URL actual en localStorage
+    const currentUrl = window.location.href;
+    localStorage.getItem("redirectUrl");
+    
+    // Redirige al inicio de sesión con la URL almacenada como callbackUrl
     signIn(provider, {
-      callbackUrl: DEFAULT_LOGIN_REDIRECT,
+      callbackUrl: currentUrl, // Usa la URL actual como callback
     });
   };
+
   return (
     <div className="flex items-center w-full gap-x-2">
       <Button
@@ -21,7 +27,6 @@ export const Social = () => {
       >
         <FcGoogle className="h-5 w-5" />
       </Button>
-      
     </div>
   );
 };
