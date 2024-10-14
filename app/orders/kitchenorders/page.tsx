@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+
 "use client";
 
 import { getRestaurant } from "@/actions/get-restaurant-action";

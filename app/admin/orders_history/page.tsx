@@ -3,6 +3,7 @@ import { prisma } from "@/src/lib/prisma"
 import OrdersTable from "@/components/order/OrdersTable"
 import { UserButton } from "@/components/auth/user-button"
 import { DailyOrderWithProducts } from "@/src/types"
+import { Suspense } from "react"
 
 async function dailyOrdersCount() {
   return await prisma.dailyOrder.count()
@@ -47,7 +48,8 @@ export default async function OrdersHistoryPage({
   ])
 
   return (
-    <>
+    <Suspense fallback={<div>Cargando...</div>}>
+      <>
       <div className="flex justify-end">
         <UserButton />
       </div>
@@ -60,6 +62,7 @@ export default async function OrdersHistoryPage({
       </div>
 
       <OrdersTable dailyOrders={dailyOrders} initialPage={page} pageSize={pageSize} totalDailyOrders={totalDailyOrders} />
-    </>
+      </>
+      </Suspense>
   )
 }

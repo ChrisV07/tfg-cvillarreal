@@ -1,8 +1,10 @@
-import NewPasswordForm from '@/components/auth/new-password-form'
-import React from 'react'
+import NewPasswordForm from '@/components/auth/new-password-form';
+import React, { Suspense } from 'react';
 
-export default function page() {
+export default function NewPasswordPage() {
   return (
-    <NewPasswordForm/>
-  )
+    <Suspense fallback={<div>Loading...</div>}>
+      <NewPasswordForm />
+    </Suspense>
+  );
 }
