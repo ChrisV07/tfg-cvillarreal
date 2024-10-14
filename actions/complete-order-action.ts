@@ -27,7 +27,6 @@ export async function completeKitchenOrder(formData: FormData) {
             revalidatePath('/orders/kitchenorders')
 
         } catch (error) {
-            console.log(error);
             
         }
     }

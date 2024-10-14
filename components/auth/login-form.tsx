@@ -18,11 +18,12 @@ import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/ui/form-error";
 import { FormSuccess } from "@/components/ui/FormSuccess";
 import { login } from "@/actions/login";
-import { useState, useTransition } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState, useTransition, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function LoginForm() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const urlError =
     searchParams.get("error") === "OAuthAccountNotLinked"
@@ -42,6 +43,7 @@ export default function LoginForm() {
     },
   });
 
+
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
     setError("");
     setSuccess("");
@@ -56,6 +58,7 @@ export default function LoginForm() {
           if (data?.success) {
             form.reset();
             setSuccess(data.success);
+            router.push("/");
           }
           if (data?.twoFactor) {
             setShowTwoFactor(true);
@@ -64,7 +67,6 @@ export default function LoginForm() {
         .catch(() => setError("Algo Salió Mal!"));
     });
   };
-
   return (
     <CardWrapper
       headerTitle="Iniciar Sesión"
@@ -78,22 +80,22 @@ export default function LoginForm() {
           <div className="space-y-4">
             {showTwoFactor && (
               <FormField
-              control={form.control}
-              name="code"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Codigo F2A:</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      disabled={isPending}
-                      placeholder="123456"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                control={form.control}
+                name="code"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Codigo F2A:</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        disabled={isPending}
+                        placeholder="123456"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             )}
             {!showTwoFactor && (
               <>

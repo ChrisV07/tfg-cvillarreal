@@ -23,6 +23,8 @@ export default async function AdminLayout({
           layout="fill"
           alt="https://www.vecteezy.com/free-photos/ai-generated"
           priority={true}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+
 
         />
 

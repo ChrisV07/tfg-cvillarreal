@@ -16,6 +16,7 @@ const ChatPage = () => {
   const context = useContext(Context);
   const bottomRef = useRef<HTMLDivElement | null>(null);
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
+  const url = localStorage.getItem('redirectUrl')
 
   if (!context) {
     return null;
@@ -39,7 +40,7 @@ const ChatPage = () => {
     <div className="flex flex-col h-screen max-w-md mx-auto border border-gray-300 rounded-lg shadow-lg relative">
       <div className="flex items-center justify-between bg-white text-center text-xl font-bold p-4 border-b border-gray-300 fixed w-full max-w-md top-0 z-10">
         <h1 className="flex-1">Mozo Virtual</h1>
-        <Link href={'/menu/cafe'}>
+        <Link href={url!}>
           <XCircleIcon className="text-red-600 h-8 w-8 cursor-pointer" />
         </Link>
       </div>

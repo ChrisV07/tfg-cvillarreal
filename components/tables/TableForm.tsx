@@ -49,6 +49,8 @@ export default async function TabletForm({ table, showQr }: TableFormProps) {
               alt="imagen mesa"
               width={256}
               height={256}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+
             />
           </div>
         </div>

@@ -1,9 +1,10 @@
-import { restaurants } from "@/prisma/data/restaurant";
-import { z } from "zod";
+
+import {z } from "zod";
 
 export const RestaurantSchema = z.object({
-  name: z.string().min(1, "El nombre es obligatorio."),
-});
+  name: z.string().min(1, { message: "El nombre es obligatorio" }),
+  image: z.string().optional(),
+})
 
 export const OrderSchema = z.object({
   name: z.string().min(1, "Tu nombre es obligatorio."),
@@ -154,4 +155,21 @@ export const CreateUserSchema = z
     }),
     role: UserRoleEnum,
     restaurantID: z.string()
+  })
+
+  export const CreateUserFromSuperAdminSchema = z
+  .object({
+    email: z.string().email({
+      message: "El Email es Obligatorio!",
+    }),
+
+    password: z.string().min(8, {
+      message: "La Contraseña debe tener minimo 8 caracteres!",
+    }),
+
+    name: z.string().min(1, {
+      message: "El Nombre es Obligatorio!",
+    }),
+    role: UserRoleEnum,
+    restaurantID: z.string(),
   })

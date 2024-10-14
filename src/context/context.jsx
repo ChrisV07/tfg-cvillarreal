@@ -1,9 +1,10 @@
 import { createContext, useState } from "react";
-import runChat from '../config/gemini';
+import runChat from "../config/gemini";
+import { getRestaurantProducts } from "@/actions/get-products-action";
 
 export const Context = createContext();
 
-const ContextProvider = (props) => {
+const ContextProvider = ({ restaurantId, children }) => {
   const [input, setInput] = useState("");
   const [recentPrompt, setRecentPrompt] = useState("");
   const [prevPrompts, setPrevPrompts] = useState([
@@ -18,7 +19,7 @@ const ContextProvider = (props) => {
 
   const delayParam = (index, nextWord) => {
     setTimeout(() => {
-      setResultData(prev => prev + nextWord + " ");
+      setResultData((prev) => prev + nextWord + " ");
     }, 75 * index);
   };
 
@@ -29,12 +30,30 @@ const ContextProvider = (props) => {
     setLoading(true);
     setShowResult(true);
     setRecentPrompt(currentPrompt);
-
-    const chatHistory = prevPrompts.map(msg => `Tu: ${msg.prompt}\nMozo Virtual: ${msg.response}`).join("\n");
-
-    const fullPrompt = `${chatHistory}\nTu: ${currentPrompt}`;
-
-    const response = await runChat(fullPrompt, chatHistory);
+  
+    // Aquí se utiliza el restaurantId que viene de las props
+    const products = await getRestaurantProducts(restaurantId);
+  
+    // Generamos el historial del chat para enviar junto con el nuevo prompt
+    const chatHistory = prevPrompts
+      .map((msg) => `Tu: ${msg.prompt}\nMozo Virtual: ${msg.response}`)
+      .join("\n");
+    
+    // El prompt completo incluye el historial
+    const fullPrompt = `
+      ${chatHistory}
+      Tu: ${currentPrompt}
+      Mozo Virtual:
+      
+      Solo debes sugerir productos del siguiente menú disponible:
+      Productos disponibles: ${products.join(", ")}
+    `;
+  
+  
+    // Envía el historial junto con el nuevo mensaje
+    const response = await runChat(fullPrompt);
+  
+  
     let responseArray = response.split("**");
     let newResponse = "";
     for (let i = 0; i < responseArray.length; i++) {
@@ -46,16 +65,20 @@ const ContextProvider = (props) => {
     }
     let newResponse2 = newResponse.split("*").join("</br>");
     let newResponseArray = newResponse2.split(" ");
-
-    // Simulate typing effect
+  
     for (let i = 0; i < newResponseArray.length; i++) {
       delayParam(i, newResponseArray[i]);
     }
-
+  
     setLoading(false);
-    setPrevPrompts(prev => [...prev, { prompt: currentPrompt, response: newResponse2 }]);
-    setShowResult(false); // Reset showResult to avoid duplicate messages
+    setPrevPrompts((prev) => [
+      ...prev,
+      { prompt: currentPrompt, response: newResponse2 },
+    ]);
+    setShowResult(false);
+  
   };
+  
 
   const clearChat = () => {
     setPrevPrompts([
@@ -82,11 +105,7 @@ const ContextProvider = (props) => {
     clearChat,
   };
 
-  return (
-    <Context.Provider value={contextValue}>
-      {props.children}
-    </Context.Provider>
-  );
+  return <Context.Provider value={contextValue}>{children}</Context.Provider>;
 };
 
 export default ContextProvider;

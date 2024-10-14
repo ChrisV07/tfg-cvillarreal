@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Logo from "../ui/Logo";
 import SuperAdminRoute from "./SuperAdminRoute";
-import { auth, signOut } from "@/auth";
+import { signOut } from "@/auth";
+import { getRestaurant } from "@/actions/get-restaurant-action";
 
 const adminNavigation = [
     
@@ -20,11 +21,18 @@ const adminNavigation = [
   
 ];
 
-export default async function SuperAdminSidebar() {
+type SuperAdminSidebarProps = {
+  restaurantID: string
+}
+
+export default async function SuperAdminSidebar({restaurantID}: SuperAdminSidebarProps) {
+
+  const restaurantData = await getRestaurant(restaurantID)
+
   return (
     <>
       <div className="print:hidden ">
-        <Logo />
+        <Logo imagePath={restaurantData?.image!}/>
         <div className="space-y-2 ">
           <p className="mt-8 uppercase font-bold text-sm text-gray-600 text-center">
             Navegación
@@ -36,7 +44,8 @@ export default async function SuperAdminSidebar() {
           </nav>
           <div className="flex items-center gap-4 w-full p-3 pt-2">
             <div className="w-16 h-16 relative">
-              <Image src="/LogOut.svg" alt="imagen categoria" fill />
+              <Image src="/LogOut.svg" alt="imagen categoria" fill   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+ />
             </div>
             <div>
               <form

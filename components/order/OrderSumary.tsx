@@ -1,195 +1,210 @@
-"use client";
+'use client'
 
-import { useStore } from "@/src/store";
-import ProductDetails from "./ProductDetails";
-import { useEffect, useMemo, useState, useCallback } from "react";
-import { formatCurrency } from "@/src/utils";
-import { createOrder } from "@/actions/create-order-action";
-import { OrderSchema } from "@/src/schemas";
-import { toast } from "react-toastify";
-import { UserButton } from "../auth/user-button";
-import { useParams } from "next/navigation";
-import { useSession } from "next-auth/react";
-import { requestBill } from "@/actions/request-bill-action";
+import { useStore } from "@/src/store"
+import ProductDetails from "./ProductDetails"
+import { useEffect, useMemo, useState, useCallback } from "react"
+import { formatCurrency } from "@/src/utils"
+import { createOrder } from "@/actions/create-order-action"
+import { OrderSchema } from "@/src/schemas"
+import { toast } from "react-toastify"
+import { UserButton } from "../auth/user-button"
+import { useParams } from "next/navigation"
+import { useSession } from "next-auth/react"
+import { requestBill } from "@/actions/request-bill-action"
+import FeedbackModal from "../feedback/FeedbackModel"
 
-type PaymentMethod = "efectivo" | "transferencia" | "tarjeta";
+type PaymentMethod = "efectivo" | "transferencia" | "tarjeta"
 
 export default function OrderSummary() {
-  const order = useStore((state) => state.order);
-  const tableId = useStore((state) => state.tableId);
-  const dailyOrderTotal = useStore((state) => state.dailyOrderTotal);
-  const setDailyOrderTotal = useStore((state) => state.setDailyOrderTotal);
-  const clearOrder = useStore((state) => state.clearOrder);
-  const [isBillRequested, setIsBillRequested] = useState(false);
-  const [isPolling, setIsPolling] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("efectivo");
-  const [cashAmount, setCashAmount] = useState<string>("");
-  const [showPaymentOptions, setShowPaymentOptions] = useState(false);
-  const [dailyOrderId, setDailyOrderId] = useState<string>("");
+  const order = useStore((state) => state.order)
+  const tableId = useStore((state) => state.tableId)
+  const dailyOrderTotal = useStore((state) => state.dailyOrderTotal)
+  const setDailyOrderTotal = useStore((state) => state.setDailyOrderTotal)
+  const clearOrder = useStore((state) => state.clearOrder)
+  const [isBillRequested, setIsBillRequested] = useState(false)
+  const [isPolling, setIsPolling] = useState(false)
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("efectivo")
+  const [cashAmount, setCashAmount] = useState<string>("")
+  const [showPaymentOptions, setShowPaymentOptions] = useState(false)
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false)
+
 
   const total = useMemo(
     () => order.reduce((total, item) => total + item.price * item.quantity, 0),
     [order]
-  );
+  )
 
-  const params = useParams<{ restaurant: string }>();
-  const { data: session } = useSession();
+  const params = useParams<{ restaurant: string }>()
+  
+  const { data: session } = useSession()
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const paramTableId = urlParams.get("table");
+    const urlParams = new URLSearchParams(window.location.search)
+
+    const paramTableId = urlParams.get("table") 
     if (paramTableId) {
-      useStore.getState().setTableId(paramTableId);
+      useStore.getState().setTableId(paramTableId)
     }
-  }, []);
+  }, [])
 
   const fetchDailyOrderTotal = useCallback(async () => {
     if (tableId) {
       try {
-        //console.log('Fetching daily order total for tableId:', tableId);
-        const response = await fetch(`/api/daily-order-total?tableId=${tableId}`);
-        const data = await response.json();
-        //console.log('Daily order total response:', data);
-        //console.log("Response status:", response.status);
+        const response = await fetch(`/api/daily-order-total?tableId=${tableId}`)
+        const data = await response.json()
         
         if (data.total !== undefined) {
-          setDailyOrderTotal(data.total);
+          setDailyOrderTotal(data.total)
         }
         
-        setIsBillRequested(data.isBillRequested || false);
-        setDailyOrderId(data.dailyOrderId || "");
-        return data.isBillRequested;
+        setIsBillRequested(data.isBillRequested || false)
+        return data.isBillRequested
       } catch (error) {
-        console.error("Error fetching daily order total error:", error);
+        console.error("Error fetching daily order total:", error)
       }
     }
-    return false;
-  }, [tableId, setDailyOrderTotal]);
-  
+    return false
+  }, [tableId, setDailyOrderTotal])
 
   useEffect(() => {
-    fetchDailyOrderTotal();
-  }, [fetchDailyOrderTotal]);
+    fetchDailyOrderTotal()
+  }, [fetchDailyOrderTotal])
 
   const resetState = useCallback(() => {
-    setIsBillRequested(false);
-    setIsPolling(false);
-    setShowPaymentOptions(false);
-    clearOrder();
-    fetchDailyOrderTotal();
-  }, [clearOrder, fetchDailyOrderTotal]);
+    setIsBillRequested(false)
+    setIsPolling(false)
+    setShowPaymentOptions(false)
+    clearOrder()
+    fetchDailyOrderTotal()
+  }, [clearOrder, fetchDailyOrderTotal])
 
   useEffect(() => {
-    let intervalId: NodeJS.Timeout;
-  
+    let intervalId: NodeJS.Timeout
+
     if (isPolling) {
-      //console.log('Starting polling for bill status...');
       intervalId = setInterval(async () => {
-        const billStillRequested = await fetchDailyOrderTotal();
-        //console.log('Polling result, isBillRequested:', billStillRequested);
+        const billStillRequested = await fetchDailyOrderTotal()
         if (!billStillRequested) {
-          resetState();
+          resetState()
+          setShowFeedbackModal(true)
           toast.success(
             "La cuenta ha sido pagada. Puede realizar nuevos pedidos.",
             { theme: "dark" }
-          );
+          )
         }
-      }, 5000);
+      }, 5000)
     }
-  
+
     return () => {
       if (intervalId) {
-        //console.log('Stopping polling for bill status.');
-        clearInterval(intervalId);
+        clearInterval(intervalId)
       }
-    };
-  }, [isPolling, fetchDailyOrderTotal, resetState]);
+    }
+  }, [isPolling, fetchDailyOrderTotal, resetState])
 
   const handleCreateOrder = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-  
+    event.preventDefault()
+
     if (isBillRequested) {
       toast.error(
         "La cuenta ha sido solicitada. No se pueden crear nuevas órdenes.",
         { theme: "dark" }
-      );
-      return;
+      )
+      return
     }
-  
-    const formData = new FormData(event.currentTarget);
+
+    const formData = new FormData(event.currentTarget)
     const data = {
       name: session?.user?.name || formData.get("name"),
       total,
       order,
       tableId: tableId,
       restaurantID: params.restaurant,
-    };
-  
-    //console.log('Order data being sent:', data);
-  
-    const result = OrderSchema.safeParse(data);
-    if (!result.success) {
-      console.error('Order validation failed:', result.error);
-      result.error.issues.forEach((issue) => {
-        toast.error(issue.message, { theme: "dark" });
-      });
-      return;
     }
-  
-    const response = await createOrder(data);
-    //console.log('Order creation response:', response);
-  
+
+    const result = OrderSchema.safeParse(data)
+    if (!result.success) {
+      console.error('Order validation failed:', result.error)
+      result.error.issues.forEach((issue) => {
+        toast.error(issue.message, { theme: "dark" })
+      })
+      return
+    }
+
+    const response = await createOrder(data)
+
     if (response?.error) {
-      toast.error(response.error, { theme: "dark" });
+      toast.error(response.error, { theme: "dark" })
     } else if (response?.success) {
-      toast.success("Pedido Realizado Correctamente", { theme: "dark" });
-      clearOrder();
+      toast.success("Pedido Realizado Correctamente", { theme: "dark" })
+      clearOrder()
       
       if (response.dailyOrderTotal !== undefined) {
-        setDailyOrderTotal(response.dailyOrderTotal);
+        setDailyOrderTotal(response.dailyOrderTotal)
       } else {
-        fetchDailyOrderTotal();
+        fetchDailyOrderTotal()
       }
     }
-  };
+  }
 
   const handleRequestBill = async () => {
-    setShowPaymentOptions(true);
-    setCashAmount(""); // Reset cash amount to empty string
-  };
+    setShowPaymentOptions(true)
+    setCashAmount("")
+  }
 
   const handleConfirmBillRequest = async () => {
     if (paymentMethod === "efectivo") {
-      const cashAmountValue = parseFloat(cashAmount);
+      const cashAmountValue = parseFloat(cashAmount)
       if (isNaN(cashAmountValue) || cashAmountValue < dailyOrderTotal) {
         toast.error(
           `El monto ingresado (${formatCurrency(cashAmountValue)}) es insuficiente. El total es ${formatCurrency(dailyOrderTotal)}. Por favor, ingrese un monto mayor o igual al total.`,
           { theme: "dark" }
-        );
-        return;
+        )
+        return
       }
     }
-  
-    //console.log('Requesting bill with payment method:', paymentMethod, 'and cash amount:', cashAmount);
-  
+
     const response = await requestBill(
       tableId,
       paymentMethod,
       paymentMethod === "efectivo" ? parseFloat(cashAmount) : undefined
-    );
-  
-    //console.log('Bill request response:', response);
-  
+    )
+
     if (response.error) {
-      toast.error(response.error, { theme: "dark" });
+      toast.error(response.error, { theme: "dark" })
     } else {
-      toast.success("Cuenta solicitada correctamente", { theme: "dark" });
-      setIsBillRequested(true);
-      setIsPolling(true);
-      setShowPaymentOptions(false);
-      await fetchDailyOrderTotal();
+      toast.success("Cuenta solicitada correctamente", { theme: "dark" })
+      setIsBillRequested(true)
+      setIsPolling(true)
+      setShowPaymentOptions(false)
+      await fetchDailyOrderTotal()
     }
-  };
+  }
+
+  const handleFeedbackSubmit = async (rating: number, comment: string) => {
+    try {
+      const response = await fetch('/api/feedback', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          restaurantID: params.restaurant,
+          rating,
+          comment,
+        }),
+      })
+
+      if (response.ok) {
+        toast.success("Gracias por tu feedback anónimo!", { theme: "dark" })
+      } else {
+        toast.error("No se pudo enviar el feedback. Por favor, intenta de nuevo.", { theme: "dark" })
+      }
+    } catch (error) {
+      console.error('Error submitting feedback:', error)
+      toast.error("Ocurrió un error al enviar el feedback.", { theme: "dark" })
+    }
+  }
 
   return (
     <aside className="w-full md:w-64 lg:w-96 h-auto lg:h-screen lg:overflow-y-scroll p-5 bg-white">
@@ -241,19 +256,16 @@ export default function OrderSummary() {
       )}
 
       <div className="mt-8 border-t pt-4">
-      <p className="text-2xl text-center font-bold">
-              Total del Día: {formatCurrency(dailyOrderTotal)}
-            </p>
+        <p className="text-2xl text-center font-bold">
+          Total del Día: {formatCurrency(dailyOrderTotal)}
+        </p>
         {!isBillRequested && !showPaymentOptions && dailyOrderTotal > 0 && (
-         
-           
-            <button
-              onClick={handleRequestBill}
-              className="mt-4 py-2 rounded-xl uppercase text-white bg-purple-800 hover:bg-purple-600 w-full text-center cursor-pointer"
-            >
-              Solicitar Cuenta
-            </button>
-
+          <button
+            onClick={handleRequestBill}
+            className="mt-4 py-2 rounded-xl uppercase text-white bg-purple-800 hover:bg-purple-600 w-full text-center cursor-pointer"
+          >
+            Solicitar Cuenta
+          </button>
         )}
         {showPaymentOptions && (
           <div className="mt-4 space-y-4">
@@ -295,6 +307,12 @@ export default function OrderSummary() {
           </p>
         )}
       </div>
+
+      <FeedbackModal
+        isOpen={showFeedbackModal}
+        onClose={() => setShowFeedbackModal(false)}
+        restaurantID={params.restaurant}
+      />
     </aside>
-  );
+  )
 }

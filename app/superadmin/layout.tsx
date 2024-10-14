@@ -22,7 +22,7 @@ export default async function AdminLayout({
         <SessionProvider session={session}>
             <div className="md:flex">
                 <aside className="md:w-72 md:h-screen bg-white">
-                    <SuperAdminSidebar />
+                    <SuperAdminSidebar restaurantID={session.user.restaurantID!}/>
                 </aside>
 
                 <main className="md:flex-1 md:h-screen md:overflow-y-scroll bg-gray-200 p-5">
