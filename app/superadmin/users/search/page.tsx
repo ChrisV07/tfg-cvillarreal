@@ -36,7 +36,7 @@ export default async function SearchPage({
         <RestaurantsTable restaurants={restaurants} />
       ) : (
         <p className="text-center text-lg py-10">
-          No se encontraron resultados con el termino "{searchParams.search}"
+          No se encontraron resultados con el termino &quot;{searchParams.search}&quot;
         </p>
       )}
     </>
