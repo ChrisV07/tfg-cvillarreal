@@ -72,7 +72,7 @@ model DailyOrder {
   date            DateTime       @default(now())
   total           Float
   orders          Order[]
-  table           Table          @relation(fields: [tableId], references: [id])
+  table           Table          @relation(fields: [tableId], references: [id], onDelete: Cascade)
   tableId         String
   restaurantID    String
   restaurant      Restaurant     @relation(fields: [restaurantID], references: [id])
@@ -99,7 +99,7 @@ model Order {
   tableId          String
   restaurantID     String
   restaurant       Restaurant      @relation(fields: [restaurantID], references: [id])
-  dailyOrder       DailyOrder      @relation(fields: [dailyOrderId], references: [id])
+  dailyOrder       DailyOrder      @relation(fields: [dailyOrderId], references: [id], onDelete: Cascade)
   dailyOrderId     String
 
   @@index([tableId])
@@ -110,9 +110,9 @@ model Order {
 model OrderProducts {
   id        Int     @id @default(autoincrement())
   orderId   Int
-  order     Order   @relation(fields: [orderId], references: [id])
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
   productId Int
-  product   Product @relation(fields: [productId], references: [id])
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   quantity  Int
 
   @@index([orderId])

@@ -72,7 +72,7 @@ export default function LoginForm() {
     <>
     <CardWrapper
       headerTitle="Iniciar Sesión"
-      headerLabel="Comenza a Administrar tu Restaurante Iniciando Sesión en el siguiente formulario:"
+      headerLabel="Comenzá a Operar en el Restaurante Iniciando Sesión en el siguiente formulario:"
       backButtonLabel="No tienes cuenta? Registrate"
       backButtonHref="/auth/register"
       showSocial

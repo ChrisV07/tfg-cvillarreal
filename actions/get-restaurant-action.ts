@@ -18,3 +18,16 @@ export async function getRestaurant(restaurantID: Restaurant['id']) {
     return null; // También retorna null en caso de error
   }
 }
+
+export async function getRestaurants() {
+  try {
+    const restaurant = await prisma.restaurant.findMany({
+      
+    });
+
+    return restaurant || null; // Retorna null si no se encuentra
+  } catch (error) {
+    console.error("Error al obtener el restaurante:", error);
+    return null; // También retorna null en caso de error
+  }
+}

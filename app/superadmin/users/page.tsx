@@ -5,6 +5,7 @@ import UsersTable from "@/components/users/UsersTable";
 import Link from "next/link";
 import { Suspense } from "react";
 
+
 async function usersCount() {
   return await prisma.user.count();
 }
@@ -15,6 +16,9 @@ async function getUsers() {
       role: {
         notIn: ['CLIENT_USER', 'SUPER_ADMIN']
       }
+    },
+    include: {
+      restaurant: true
     }
   });
   return users;
@@ -32,11 +36,15 @@ export default async function UsersPage({
   const usersData = getUsers();
   const totalUsersData = usersCount();
 
+
+
   const [users, totalUsers] = await Promise.all([
     usersData,
     totalUsersData,
   ]);
   const totalPages = Math.ceil(totalUsers / pageSize);
+
+
 
   return (
     <Suspense>

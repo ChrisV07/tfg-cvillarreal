@@ -1,4 +1,4 @@
-import { DailyOrder, Feedback, Order, OrderProducts, Product, Restaurant, Table } from "@prisma/client";
+import { DailyOrder, Feedback, Order, OrderProducts, Product, Restaurant, Table, User } from "@prisma/client";
 
 export type OrderItem = Pick<Product, 'id' | 'name' | 'price'> & {
     quantity: number,
@@ -20,3 +20,7 @@ export type DailyOrderWithProducts = DailyOrder & {
 export interface FeedbackWithRestaurant extends Feedback {
   restaurant: Restaurant;
 }
+
+export type UserWithRestaurant = User & {
+  restaurant: Restaurant | null; 
+};

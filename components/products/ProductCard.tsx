@@ -1,7 +1,10 @@
+'use client'
+
 import { formatCurrency, getImagePath } from "@/src/utils";
 import { Product } from "@prisma/client";
 import Image from "next/image";
 import AddProductButton from "./AddProductButton";
+import { useState, useEffect } from 'react';
 
 type ProductCardProps = {
   product: Product;
@@ -9,6 +12,24 @@ type ProductCardProps = {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const imagePath = getImagePath(product.image);
+  const [cartCount, setCartCount] = useState(0);
+
+  useEffect(() => {
+    // Recuperar el conteo del carrito del localStorage al montar el componente
+    const storedCount = localStorage.getItem('cartCount');
+    if (storedCount) {
+      setCartCount(parseInt(storedCount, 10));
+    }
+  }, []);
+
+  const updateCartCount = (quantity: number) => {
+    const newCount = cartCount + quantity;
+    setCartCount(newCount);
+    localStorage.setItem('cartCount', newCount.toString());
+    
+    // Disparar un evento personalizado para actualizar el FloatingCartButton
+    window.dispatchEvent(new CustomEvent('updateCartCount', { detail: { count: newCount } }));
+  };
 
   return (
     <div className="border bg-white rounded-xl shadow-lg flex flex-col h-full">

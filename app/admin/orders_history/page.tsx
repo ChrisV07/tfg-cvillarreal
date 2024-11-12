@@ -54,7 +54,7 @@ export default async function OrdersHistoryPage({
         <UserButton />
       </div>
       <div className="text-center">
-        <Heading>Historial de Ordenes Diarias</Heading>
+        <Heading>Historial de Ordenes</Heading>
       </div>
 
       <div className="flex flex-col gap-5 lg:flex-row lg:justify-between">
